@@ -1,0 +1,116 @@
+/* ===== HEADER ===== */
+.header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .inner-logo img {
+    max-height: 50px;
+    max-width: 100%;
+}
+
+/* MENU */
+.header .inner-menu > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.header .inner-menu > ul > li {
+    margin-left: 20px;
+}
+
+.header .inner-menu > ul > li > a {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: 500;
+}
+
+.header .inner-menu > ul > li > a:hover {
+    text-decoration: underline;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+/* ===== BOX HEAD ===== */
+.box-head {
+    margin-bottom: 20px;
+}
+
+.box-head .inner-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* ===== PRODUCT ITEM ===== */
+.product-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #fff;
+    height: 100%;
+}
+
+/* IMAGE */
+.product-item .inner-image {
+    width: 100%;
+    height: 220px;          /* KHỐNG CHẾ CHIỀU CAO */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+}
+
+.product-item .inner-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;    /* không zoom */
+}
+
+
+
+/* CONTENT */
+.product-item .inner-content {
+    text-align: center;
+}
+
+.product-item .inner-content .inner-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* PRICE */
+.product-item .inner-price-new {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e53935;
+}
+
+.product-item .inner-price-old {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 6px;
+}
+
+/* DISCOUNT */
+.product-item .inner-discount {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #388e3c;
+}
