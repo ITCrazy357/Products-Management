@@ -51,6 +51,7 @@ module.exports.index = async (req, res) => {
     res.render("admin/pages/products/index", {
         pageTitle: "Danh Sách Sản Phẩm",
         products: products,
-        filterStatus: filterStatus
+        filterStatus: filterStatus,
+        query:req.query
     });
 };
