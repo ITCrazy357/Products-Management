@@ -46,12 +46,21 @@ module.exports.index = async (req, res) => {
         find.status = req.query.status;
     }
 
+
+    let keyword = "";
+    if (req.query.keyword) {
+        keyword = req.query.keyword;
+        
+        const regex = new RegExp(keyword, "i")
+        find.title = regex;
+    }
+
     const products = await Product.find(find);
 
     res.render("admin/pages/products/index", {
         pageTitle: "Danh Sách Sản Phẩm",
         products: products,
         filterStatus: filterStatus,
-        query:req.query
+        keyword: keyword
     });
-};
+}; 
