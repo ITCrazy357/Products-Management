@@ -1,42 +1,11 @@
 const Product = require("../../models/product.model");
-
+const filterStatusHelper = require("../../helpers/filterStatus");
+const searchHelper = require("../../helpers/search")
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
-    // console.log(req.query.status);
-
-    let filterStatus = [
-        {
-            name: "Tất cả",
-            status: "",
-            class: ""
-        },
-        {
-            name: "Hoạt động",
-            status: "active",
-            class: ""
-        },
-        {
-            name: "Dừng hoạt động",
-            status: "inactive",
-            class: ""
-        }
-    ];
-
-    // ✅ reset class trước
-    filterStatus.forEach(item => item.class = "");
-
-    if (req.query.status) {
-        const index = filterStatus.findIndex(item => item.status == req.query.status);
-
-        // ✅ tránh index = -1
-        if (index !== -1) {
-            filterStatus[index].class = "active";
-        }
-    } else {
-        const index = filterStatus.findIndex(item => item.status == "");
-        filterStatus[index].class = "active";
-    }
+    const filterStatus = filterStatusHelper(req.query)
+    
 
     let find = {
         deleted: false,
@@ -47,12 +16,13 @@ module.exports.index = async (req, res) => {
     }
 
 
-    let keyword = "";
-    if (req.query.keyword) {
-        keyword = req.query.keyword;
-        
-        const regex = new RegExp(keyword, "i")
-        find.title = regex;
+    // Tìm kiếm  
+    const objectSearch = searchHelper(req.query);
+
+    // console.log(objectSearch);
+
+    if(objectSearch.regex){
+        find.title = objectSearch.regex;
     }
 
     const products = await Product.find(find);
@@ -61,6 +31,6 @@ module.exports.index = async (req, res) => {
         pageTitle: "Danh Sách Sản Phẩm",
         products: products,
         filterStatus: filterStatus,
-        keyword: keyword
+        keyword: objectSearch.keyword
     });
 }; 
