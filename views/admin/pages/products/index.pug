@@ -24,6 +24,7 @@ block main
                         th Hình ảnh
                         th Tiêu đề
                         th Giá
+                        th Vị trí
                         th Trạng thái
                         th Hành động
                 tbody
@@ -39,6 +40,14 @@ block main
                             td #{item.title}
                             td #{item.price}$
                             td
+                                input(
+                                    type="number"
+                                    value= item.position 
+                                    style="width: 60px"
+                                    min="1"
+                                    name="position"
+                                )
+                            td
                                 if item.status == "active"
                                     span.badge.bg-success Hoạt động
                                 else
@@ -46,3 +55,36 @@ block main
                             td
                                 button.btn.btn-warning.btn-sm Sửa
                                 button.btn.btn-danger.btn-sm.ms-1 Xóa
+    nav
+        ul(class="pagination")
+            li(class="page-item")
+                        button(
+                            class="page-link" 
+                            button-pagination = 1
+                            ) Trang đầu
+            if(pagination.currentPage > 1)
+                li(class="page-item")
+                    button(
+                        class="page-link" 
+                        button-pagination = pagination.currentPage - 1
+                        ) Trang trước
+            - for(var i = 1; i<= pagination.totalPage; i++)
+                li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                    button(
+                        class="page-link"
+                        button-pagination = i
+                    ) #{i}
+            if(pagination.currentPage < pagination.totalPage)
+                li(class="page-item")
+                    button(
+                        class="page-link"
+                        button-pagination = pagination.currentPage + 1
+                        ) Kế tiếp
+            if(pagination.currentPage < pagination.totalPage)
+                li(class="page-item")
+                            button(
+                                class="page-link" 
+                                button-pagination = pagination.totalPage
+                                ) Trang cuối
+
+
