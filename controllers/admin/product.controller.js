@@ -6,8 +6,6 @@ const paginationHelper = require("../../helpers/pagination")
 module.exports.index = async (req, res) => {
 
     const filterStatus = filterStatusHelper(req.query)
-    
-
     let find = {
         deleted: false,
     };
@@ -15,8 +13,6 @@ module.exports.index = async (req, res) => {
     if (req.query.status) {
         find.status = req.query.status;
     }
-
-
     // Tìm kiếm  
     const objectSearch = searchHelper(req.query);
 
@@ -48,3 +44,13 @@ module.exports.index = async (req, res) => {
         pagination: objectPagination
     });
 }; 
+
+// [GET] /admin/products/change-status/:status/:id 
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+
+    await Product.updateOne({ _id: id}, { status: status})
+
+    res.redirect(req.get("Referrer") || "/admin/products")
+}
