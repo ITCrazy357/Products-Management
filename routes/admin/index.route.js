@@ -5,7 +5,7 @@ const productRoutes = require("./product.route")
 
 
 module.exports = (app) => {
-  const PATH_ADMIN = systemConfig.prefixAmin;
+  const PATH_ADMIN = systemConfig.prefixAdmin;
 
   app.use(PATH_ADMIN + "/dashboard", dashboardRoute)
 
