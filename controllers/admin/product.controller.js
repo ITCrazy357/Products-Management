@@ -33,6 +33,7 @@ module.exports.index = async (req, res) => {
   );
 
   const products = await Product.find(find)
+    .sort({position: "desc"})
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
 
@@ -64,30 +65,42 @@ module.exports.changeMulti = async (req, res) => {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
       break;
+
     case "inactive":
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
       break;
+
     case "delete-all":
       await Product.updateMany(
         { _id: { $in: ids } },
         { deleted: true, deletedAt: new Date() },
       );
       break;
+
     case "restore-all":
-        await Product.updateMany(
-            { _id: { $in: ids } },
-            { 
-                deleted: false,
-                deletedAt: null
-            }
-        );
-        break;
+      await Product.updateMany(
+        { _id: { $in: ids } },
+        {
+          deleted: false,
+          deletedAt: null,
+        },
+      );
+      break;
 
     case "delete-permanent":
-        await Product.deleteMany(
-            { _id: { $in: ids } }
-        );
-        break;
+      await Product.deleteMany({ _id: { $in: ids } });
+      break;
+
+    case "change-position":
+      // console.log(ids);
+      for (const item of ids) {
+        let [id, position] = item.split("-");
+        position = parseInt(position);
+        // console.log(id)
+        // console.log(position)
+        await Product.updateOne({ _id: id }, { position: position });
+      }
+      break;
 
     default:
       break;

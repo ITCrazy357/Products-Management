@@ -98,32 +98,38 @@ if (formChangeMulti) {
       "input[name='id']:checked",
     );
 
-
     const typeChange = e.target.elements.type.value;
 
-    if(typeChange == "delete-all") {
+    if (typeChange == "delete-all") {
       const isConfirm = confirm("Bạn có chắc xóa các sản phẩm này?");
 
-      if(!isConfirm){
+      if (!isConfirm) {
         return;
       }
     }
 
+    if (inputsChecked.length > 0) {
+      let ids = [];
+      const inputIds = formChangeMulti.querySelector("input[name='ids']");
 
-    if(inputsChecked.length > 0){
-        let ids = [];
-        const inputIds = formChangeMulti.querySelector("input[name='ids']");
+      inputsChecked.forEach((input) => {
+        const id = input.value;
 
-        inputsChecked.forEach(input =>{
-            const id = input.value;
-            ids.push(id);
-        })
+        if (typeChange == "change-position") {
+          const position = input.closest("tr").querySelector("input[name='position']").value;
+          
 
-        inputIds.value = ids.join(", ");
+          ids.push(`${id}-${position}`);
+        } else {
+          ids.push(id);
+        }
+      });
 
-        formChangeMulti.submit();
-    }else{
-        alert("Vui lòng chọn ít nhất 1 sản phẩm")
+      inputIds.value = ids.join(", ");
+
+      formChangeMulti.submit();
+    } else {
+      alert("Vui lòng chọn ít nhất 1 sản phẩm");
     }
   });
 }
