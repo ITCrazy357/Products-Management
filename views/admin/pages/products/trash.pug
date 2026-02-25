@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/form-trash-multi.pug
 
 block main
     h1 Sản phẩm đã xóa
@@ -8,28 +10,43 @@ block main
         | Quay lại danh sách
 
     .card.mb-3
-        .card-header Danh sách sản phẩm đã xóa
-        .card-body
-            table.table.table-hover.table-sm
-                thead
+    .card-header Danh sách sản phẩm đã xóa
+    .card-body
+        +form-trash-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+
+        table(
+            class="table table-hover table-sm"
+            checkbox-multi
+        )
+            thead
+                tr
+                    th
+                        input(
+                            type="checkbox"
+                            name="checkall"
+                        )
+                    th STT
+                    th Hình ảnh
+                    th Tiêu đề
+                    th Giá
+
+            tbody
+                each item, index in products
                     tr
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        th Giá
-                        th Hành động
-                tbody
-                    each item, index in products
-                        tr
-                            td #{index + 1}
-                            td
-                                img(
-                                    src=item.thumbnail
-                                    alt=item.title
-                                    width="100"
-                                )
-                            td #{item.title}
-                            td #{item.price}$
+                        td
+                            input(
+                                type="checkbox"
+                                name="id"
+                                value=item._id
+                            )
+                        td #{index + 1}
+                        td
+                            img(
+                                src=item.thumbnail
+                                width="100"
+                            )
+                        td #{item.title}
+                        td #{item.price}$
                             td
                                 form(
                                     action=`${prefixAdmin}/products/restore/${item._id}?_method=PATCH`

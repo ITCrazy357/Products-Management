@@ -1,0 +1,25 @@
+mixin form-trash-multi(path)
+    form(
+        action=path
+        method="POST"
+        form-change-multi
+    )
+        .d-flex.align-items-start.gap-2
+            select(
+                name="type"
+                class="form-select"
+            )
+                option(value="") -- Chọn hành động --
+                option(value="restore-all") Khôi phục
+                option(value="delete-permanent") Xóa vĩnh viễn
+
+            input(
+                type="text"
+                name="ids"
+                class="form-control d-none"
+            )
+
+            button(
+                type="submit"
+                class="btn btn-danger"
+            ) Áp dụng
