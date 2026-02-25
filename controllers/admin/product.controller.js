@@ -86,3 +86,48 @@ module.exports.deleteItem = async (req, res) => {
 
     res.redirect(req.get("Referrer") || "/admin/products")
 }
+
+
+// [GET] /admin/products/trash
+module.exports.trash = async (req, res) => {
+
+    let find = {
+        deleted: true
+    };
+
+    const countProduct = await Product.countDocuments(find);
+
+    let objectPagination = paginationHelper({
+        currentPage: 1,
+        limitItems: 4
+    },
+    req.query,
+    countProduct
+    );
+
+    const products = await Product.find(find)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);
+
+    res.render("admin/pages/products/trash", {
+        pageTitle: "Sản phẩm đã xóa",
+        products: products,
+        pagination: objectPagination
+    });
+};
+
+
+// [PATCH] /admin/products/restore/:id
+module.exports.restoreItem = async (req, res) => {
+    const id = req.params.id;
+
+    await Product.updateOne(
+        { _id: id },
+        {
+            deleted: false,
+            deletedAt: null
+        }
+    );
+
+    res.redirect(req.get("Referrer") || "/admin/products/trash");
+};

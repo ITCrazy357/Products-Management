@@ -7,7 +7,15 @@ include ../../mixins/form-change-multi.pug
 
 block main
     h1 Danh sách sản phẩm
-
+    .d-flex.justify-content-between.align-items-center.mb-3
+    a(
+        class="btn btn-outline-danger"
+        href=`${prefixAdmin}/products/trash`
+    )
+        i(
+            class="bi bi-trash me-1"
+        )
+        | Thùng rác
     .card.mb-3
         .card-header Bộ lọc và tìm kiếm
         .card-body
@@ -16,7 +24,7 @@ block main
                     +filter-status(filterStatus)
                 .col-6
                     +search(keyword)
-
+    
     .card.mb-3
         .card-header Danh sách sản phẩm
             .card-body
