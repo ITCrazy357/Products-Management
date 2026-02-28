@@ -1,0 +1,12 @@
+mixin alert-success(time)
+  //- Kiểm tra mảng có tồn tại và có phần tử không
+  - if (messages.success && messages.success.length > 0)
+    .message.info
+      div(
+        class="alert alert-success"
+        show-alert
+        data-time=time
+      )
+        //- Lấy phần tử đầu tiên của mảng
+        | #{messages.success[0]} 
+        span(close-alert) x
