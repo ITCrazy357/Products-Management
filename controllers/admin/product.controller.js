@@ -1,6 +1,6 @@
 const Product = require("../../models/product.model");
 const moment = require("moment-timezone");
-const systemConfig = require("../../config/system")
+const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
@@ -35,7 +35,7 @@ module.exports.index = async (req, res) => {
   );
 
   const products = await Product.find(find)
-    .sort({position: "desc"})
+    .sort({ position: "desc" })
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
 
@@ -54,7 +54,7 @@ module.exports.changeStatus = async (req, res) => {
   const id = req.params.id;
 
   await Product.updateOne({ _id: id }, { status: status });
-  req.flash("success", "Cập nhật trạng thái thành công!")
+  req.flash("success", "Cập nhật trạng thái thành công!");
   res.redirect(req.get("Referrer") || "/admin/products");
 };
 
@@ -66,12 +66,18 @@ module.exports.changeMulti = async (req, res) => {
   switch (type) {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
-      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+      );
       break;
 
     case "inactive":
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
-      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+      );
       break;
 
     case "delete-all":
@@ -79,7 +85,10 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: ids } },
         { deleted: true, deletedAt: new Date() },
       );
-      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+      );
       break;
 
     case "restore-all":
@@ -90,12 +99,18 @@ module.exports.changeMulti = async (req, res) => {
           deletedAt: null,
         },
       );
-      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+      );
       break;
 
     case "delete-permanent":
       await Product.deleteMany({ _id: { $in: ids } });
-      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+      );
       break;
 
     case "change-position":
@@ -106,7 +121,10 @@ module.exports.changeMulti = async (req, res) => {
         // console.log(id)
         // console.log(position)
         await Product.updateOne({ _id: id }, { position: position });
-        req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+        req.flash(
+          "success",
+          `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+        );
       }
       break;
 
@@ -184,16 +202,19 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
+  console.log(req.file);
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
 
-  if(req.body.position == ""){
+  if (req.body.position == "") {
     const countProducts = await Product.countDocuments();
     req.body.position = countProducts + 1;
-  }else{
+  } else {
     req.body.position = parseInt(req.body.position);
   }
+
+  req.body.thumbnail = `/uploads/${req.file.filename}`;
   const product = new Product(req.body);
   await product.save();
 

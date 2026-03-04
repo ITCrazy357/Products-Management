@@ -55,12 +55,14 @@ app.set("view engine", "pug");
 // 8. Session + Flash
 // =======================
 app.use(cookieParser("nmd2614"));
-app.use(session({
-  secret: "nmd2614",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60000 }
-}));
+app.use(
+  session({
+    secret: "nmd2614",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 },
+  }),
+);
 app.use(flash());
 
 app.use((req, res, next) => {
