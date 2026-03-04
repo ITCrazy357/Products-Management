@@ -65,7 +65,6 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.messages = req.flash();
-  console.log("Flash Messages:", res.locals.messages);
   next();
 });
 
