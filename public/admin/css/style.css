@@ -48,6 +48,7 @@
   top: 70px;
   right: 15px;
   z-index: 9999;
+  min-width: 300px;
 }
 
 /* Khi ẩn alert */
@@ -81,6 +82,7 @@
   font-weight: 600;
   border-radius: 50%;
   cursor: pointer;
+  margin-left: 15px;
 }
 
 /* ===== End Close Alert Button ===== */
