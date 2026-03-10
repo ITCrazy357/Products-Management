@@ -1,6 +1,10 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
 
 block main 
+    +alert-success(5000)
+    +alert-error(5000)
+
     h1(class="mb-4") Thêm mới sản phẩm 
 
     form(
@@ -80,12 +84,16 @@ block main
             accept="image/*"
             upload-image-input
             )
-
-            img(
-                src=""
-                upload-image-preview
-                class="image-preview"
-            )
+            div(class="image-container")
+                img(
+                    src=""
+                    upload-image-preview
+                    class="image-preview"
+                )
+                span(
+                    upload-image-close 
+                    class="close-image"
+                ) x
         // Vị trí
         div(class="form-group")
             label(for="position") Vị trí

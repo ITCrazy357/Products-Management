@@ -49,6 +49,20 @@
   right: 15px;
   z-index: 9999;
   min-width: 300px;
+  /* Fallback nếu thiếu Bootstrap */
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+[show-alert].alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+[show-alert].alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
 }
 
 /* Khi ẩn alert */
@@ -98,6 +112,32 @@
   border-radius: 5px;
 }
 .image-preview[src=""]{
+  display: none;
+}
+
+.image-container {
+  position: relative;
+  width: max-content;
+  margin-top: 15px;
+}
+
+.image-container .image-preview {
+  margin-top: 0;
+}
+
+.close-image {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
   display: none;
 }
 /*End Image-Preview*/

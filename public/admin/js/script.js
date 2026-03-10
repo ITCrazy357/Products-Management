@@ -116,8 +116,9 @@ if (formChangeMulti) {
         const id = input.value;
 
         if (typeChange == "change-position") {
-          const position = input.closest("tr").querySelector("input[name='position']").value;
-          
+          const position = input
+            .closest("tr")
+            .querySelector("input[name='position']").value;
 
           ids.push(`${id}-${position}`);
         } else {
@@ -136,33 +137,44 @@ if (formChangeMulti) {
 // End Form Change Multi
 
 //Show Alert
-const showAlert = document.querySelector("[show-alert]")
-if(showAlert){
-  const time = parseInt(showAlert.getAttribute("data-time"));
-  const closeAlert = showAlert.querySelector("[close-alert]")
-  setTimeout(()=>{
-    showAlert.classList.add("alert-hidden")
-  }, time);
+const showAlert = document.querySelectorAll("[show-alert]");
+if (showAlert.length > 0) {
+  showAlert.forEach((alert) => {
+    const time = parseInt(alert.getAttribute("data-time"));
+    const closeAlert = alert.querySelector("[close-alert]");
 
-  closeAlert.addEventListener("click", ()=>{
-    showAlert.classList.add("alert-hidden");
-  })
+    setTimeout(() => {
+      alert.classList.add("alert-hidden");
+    }, time);
 
+    closeAlert.addEventListener("click", () => {
+      alert.classList.add("alert-hidden");
+    });
+  });
 }
 //END Show Alert
 
 //upload image
 const uploadImage = document.querySelector("[upload-image]");
-if(uploadImage){
-  const uploadImageInput = document.querySelector("[upload-image-input]")
-  const uploadImagePreview = document.querySelector("[upload-image-preview]")
-
+if (uploadImage) {
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+  const uploadImageClose = document.querySelector("[upload-image-close]");
   uploadImageInput.addEventListener("change", (e) => {
     console.log(e);
     const file = e.target.files[0];
-    if(file){
+    if (file) {
       uploadImagePreview.src = URL.createObjectURL(file);
+      if (uploadImageClose) {
+        uploadImageClose.style.display = "block";
+      }
     }
-  
-  })
+  });
+  if (uploadImageClose) {
+    uploadImageClose.addEventListener("click", () => {
+      uploadImageInput.value = "";
+      uploadImagePreview.src = "";
+      uploadImageClose.style.display = "none";
+    });
+  }
 }

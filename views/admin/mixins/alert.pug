@@ -9,4 +9,12 @@ mixin alert-success(time)
       | #{messages.success[0]} 
       span(close-alert) x
 
-        
+mixin alert-error(time)
+  - if (messages.error && messages.error.length > 0)
+    div(
+      class="alert alert-danger"
+      show-alert
+      data-time=time
+    )
+      | #{messages.error[0]}
+      span(close-alert) x
