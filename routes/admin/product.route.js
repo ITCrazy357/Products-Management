@@ -24,6 +24,7 @@ router.post(
   validate.createPost,
   controller.createPost,
 );
+
 //Chỉnh sửa
 router.get("/edit/:id", controller.edit);
 
@@ -31,6 +32,8 @@ router.patch("/edit/:id",
   upload.single("thumbnail"),
   validate.createPost,
   controller.editPatch);
+
+
 //Chi tiết
 router.get("/detail/:id", controller.detail);
 module.exports = router;

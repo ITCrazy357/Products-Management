@@ -19,3 +19,30 @@ module.exports.index = async (req, res) => {
     pageTitle: "Danh Sách Sản Phẩm",
   });
 };
+
+//[GET] / product/:slug
+module.exports.detail = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      slug: req.params.slug,
+      status: "active",
+    };
+
+    const product = await Product.findOne(find);
+
+    if(product) {
+      product.priceNew = (
+        (product.price * (100 - product.discountPercentage)) /
+        100
+      ).toFixed(0);
+    }
+
+    res.render("client/pages/products/detail", {
+      pageTitle: product.title,
+      product: product,
+    });
+  } catch (error) {
+    res.redirect("/products");
+  }
+};

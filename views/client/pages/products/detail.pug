@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        if(product.title)
+          h1(class="mb-4") #{product.title}
+
+        div(class="mb-4")
+          span(class="badge bg-success") Còn hàng
+    
+    .row
+      .col-md-6
+        .inner-thumb
+          img(
+            src=product.thumbnail
+            alt=product.title
+            class="w-100"
+          )
+      
+      .col-md-6
+        h2(class="mb-4") #{product.title}
+
+        if(product.price)
+          div(class="mb-4") Giá cũ: <b class="text-decoration-line-through text-secondary">#{product.price}$</b>
+        
+        if(product.priceNew)
+          div(class="mb-4") Giá mới: <b class="text-success fs-4">#{product.priceNew}$</b>
+        
+        if(product.discountPercentage)
+          div(class="mb-4") Giảm giá: <b class="badge bg-danger text-white">#{product.discountPercentage}%</b>
+        
+        if(product.stock)
+          div(class="mb-4") Tồn kho: <b>#{product.stock}</b>
+        
+        if(product.description)
+            div(class="mb-4")
+                div(class="fw-bold mb-2") Mô tả sản phẩm:
+                div(class="inner-desc") !{product.description}
+
+        form(action=`/cart/add/${product.id}` method="POST")
+            button(type="submit" class="btn btn-success btn-lg w-100") Thêm vào giỏ hàng
