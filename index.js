@@ -43,12 +43,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 // Static folder
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 // =======================
 // 7. View Engine
 // =======================
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 // =======================
