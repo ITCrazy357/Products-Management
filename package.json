@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "body-parser": "^2.2.2",
+    "cloudinary": "^2.9.0",
     "cookie": "^1.1.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
@@ -30,6 +31,7 @@
     "mongoose-slug-updater": "^3.3.0",
     "multer": "^2.1.0",
     "parser": "^0.1.4",
-    "pug": "^3.0.3"
+    "pug": "^3.0.3",
+    "streamifier": "^0.1.1"
   }
 }

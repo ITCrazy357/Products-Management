@@ -3,8 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const controller = require("../../controllers/admin/product.controller");
 const validate = require("../../validates/admin/product.validate");
-const storageMulter = require("../../helpers/storageMulter");
-const upload = multer({ storage: storageMulter() });
+const upload = multer();
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
 
 router.get("/", controller.index);
 
@@ -21,6 +21,7 @@ router.get("/create", controller.create);
 router.post(
   "/create",
   upload.single("thumbnail"),
+  uploadCloud.upload,
   validate.createPost,
   controller.createPost,
 );
@@ -28,11 +29,12 @@ router.post(
 //Chỉnh sửa
 router.get("/edit/:id", controller.edit);
 
-router.patch("/edit/:id", 
+router.patch(
+  "/edit/:id",
   upload.single("thumbnail"),
   validate.createPost,
-  controller.editPatch);
-
+  controller.editPatch,
+);
 
 //Chi tiết
 router.get("/detail/:id", controller.detail);
