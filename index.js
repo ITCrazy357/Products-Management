@@ -7,6 +7,7 @@ require("dotenv").config();
 // 2. Import Packages
 // =======================
 const express = require("express");
+const path = require("path");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -71,18 +72,23 @@ app.use((req, res, next) => {
 });
 
 // =======================
-// 9. App Local Variables
+// 9. App TinyMCE
+// =======================
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+// =======================
+// 10. App Local Variables
 // =======================
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 // =======================
-// 10. Routes
+// 11. Routes
 // =======================
 routeClient(app);
 routeAdmin(app);
 
 // =======================
-// 11. Start Server
+// 12. Start Server
 // =======================
 app.listen(port, () => {
   console.log(`🚀🚀🚀 Server đang chạy tại cổng ${port}`);
