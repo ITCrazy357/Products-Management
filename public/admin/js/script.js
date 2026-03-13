@@ -1,4 +1,5 @@
 //button status
+(function() {
 const buttonStatus = document.querySelectorAll("[button-status]");
 if (buttonStatus.length > 0) {
   let url = new URL(window.location.href);
@@ -40,7 +41,7 @@ if (formSearch) {
 
 //Pagination
 const buttonPagination = document.querySelectorAll("[button-pagination]");
-if (buttonPagination) {
+if (buttonPagination.length > 0) {
   let url = new URL(window.location.href);
 
   buttonPagination.forEach((button) => {
@@ -147,9 +148,11 @@ if (showAlert.length > 0) {
       alert.classList.add("alert-hidden");
     }, time);
 
-    closeAlert.addEventListener("click", () => {
-      alert.classList.add("alert-hidden");
-    });
+    if (closeAlert) {
+      closeAlert.addEventListener("click", () => {
+        alert.classList.add("alert-hidden");
+      });
+    }
   });
 }
 //END Show Alert
@@ -178,3 +181,52 @@ if (uploadImage) {
     });
   }
 }
+//END upload image
+
+//sort
+const sort = document.querySelector("[sort]");
+if (sort) {
+  let url = new URL(window.location.href);
+
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+      const value = e.target.value;
+      // Đảm bảo value hợp lệ trước khi split
+      if(value) {
+        const [sortKey, sortValue] = value.split("-");
+      
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+
+        window.location.href = url.href;
+      }
+    });
+  }
+
+  if (sortClear) {
+    sortClear.addEventListener("click", () => {
+      url.searchParams.delete("sortKey");
+      url.searchParams.delete("sortValue");
+      window.location.href = url.href;
+    });
+  }
+
+  //Them sected cho option
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+
+  if (sortKey && sortValue && sortSelect) {
+    const stringSort = `${sortKey}-${sortValue}`;
+    const optionSelected = sortSelect.querySelector(
+      `option[value="${stringSort}"]`
+    );
+    if (optionSelected) {
+      optionSelected.selected = true;
+    }
+  }
+}
+//END sort
+})();
