@@ -3,6 +3,7 @@ const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
+const createTreeHelper = require("../../helpers/createTree");
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
@@ -21,17 +22,6 @@ module.exports.index = async (req, res) => {
     find.title = objectSearch.regex;
   }
 
-  // Pagination
-  const count = await ProductCategory.countDocuments(find);
-  let objectPagination = paginationHelper(
-    {
-      currentPage: 1,
-      limitItems: 4,
-    },
-    req.query,
-    count,
-  );
-
   // Sort
   let sort = {};
   if (req.query.sortKey && req.query.sortValue) {
@@ -41,13 +31,36 @@ module.exports.index = async (req, res) => {
   }
 
   const records = await ProductCategory.find(find)
-    .sort(sort)
-    .limit(objectPagination.limitItems)
-    .skip(objectPagination.skip);
+    .sort(sort);
+
+  const newRecords = createTreeHelper.createTree(records);
+
+  // Làm phẳng cây để phân trang (chuyển cấu trúc cây thành mảng 1 chiều theo thứ tự)
+  const flatRecords = [];
+  const createFlatTree = (arr, level = 0) => {
+    arr.forEach((item) => {
+      item.level = level;
+      flatRecords.push(item);
+      if (item.children && item.children.length > 0) {
+        createFlatTree(item.children, level + 1);
+      }
+    });
+  };
+  createFlatTree(newRecords);
+
+  // Pagination
+  const count = flatRecords.length;
+  let objectPagination = paginationHelper(
+    { currentPage: 1, limitItems: 4 },
+    req.query,
+    count
+  );
+
+  const paginatedRecords = flatRecords.slice(objectPagination.skip, objectPagination.skip + objectPagination.limitItems);
 
   res.render("admin/pages/product-category/index", {
     pageTitle: "Danh mục sản phẩm",
-    records: records,
+    records: paginatedRecords,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
     pagination: objectPagination,
@@ -60,27 +73,9 @@ module.exports.create = async (req, res) => {
     deleted: false,
   };
 
-  function createTree(arr, parentId = ""){
-    const tree = [];
-    arr.forEach((item) => {
-      if (item.parent_id === parentId) {
-        const newItem = item.toObject();
-        const children = createTree(arr, item.id);
-        if (children.length > 0) {
-          newItem.children = children;
-        }
-        tree.push(newItem);
-      }
-    });
-    return tree;
-  }
-
-  
-
   const records = await ProductCategory.find(find);
 
-  const newRecords = createTree(records);
-
+  const newRecords = createTreeHelper.createTree(records);
 
   res.render("admin/pages/product-category/create", {
     pageTitle: "Tạo danh mục sản phẩm",
@@ -91,7 +86,7 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
   if (req.body.position === "") {
-    const count = await ProductCategory.countDocuments();
+    const count = await ProductCategory.countDocuments({ deleted: false });
     req.body.position = count + 1;
   } else {
     req.body.position = parseInt(req.body.position);
@@ -151,17 +146,26 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: ids } },
         { deleted: true, deletedAt: new Date() },
       );
+      const remainingItems = await ProductCategory.find({ deleted: false }).sort({ position: "asc" });
+      for (let i = 0; i < remainingItems.length; i++) {
+        await ProductCategory.updateOne({ _id: remainingItems[i]._id }, { position: i + 1 });
+      }
       req.flash("success", `Xóa thành công ${ids.length} danh mục!`);
       break;
 
     case "restore-all":
-      await ProductCategory.updateMany(
-        { _id: { $in: ids } },
-        {
-          deleted: false,
-          deletedAt: null,
-        },
-      );
+      let currentCount = await ProductCategory.countDocuments({ deleted: false });
+      for (const itemId of ids) {
+        currentCount++;
+        await ProductCategory.updateOne(
+          { _id: itemId },
+          {
+            deleted: false,
+            deletedAt: null,
+            position: currentCount
+          },
+        );
+      }
       req.flash("success", `Khôi phục thành công ${ids.length} danh mục!`);
       break;
 
@@ -197,10 +201,23 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/product-category/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
+  const item = await ProductCategory.findOne({ _id: id });
+
   await ProductCategory.updateOne(
     { _id: id },
     { deleted: true, deletedAt: new Date() },
   );
+
+  if (item) {
+    await ProductCategory.updateMany(
+      {
+        deleted: false,
+        position: { $gt: item.position }
+      },
+      { $inc: { position: -1 } }
+    );
+  }
+
   req.flash("success", `Xóa danh mục thành công!`);
   res.redirect(
     req.get("Referrer") || `${systemConfig.prefixAdmin}/product-category`,
@@ -232,9 +249,15 @@ module.exports.trash = async (req, res) => {
 // [PATCH] /admin/product-category/restore/:id
 module.exports.restoreItem = async (req, res) => {
   const id = req.params.id;
+  const count = await ProductCategory.countDocuments({ deleted: false });
+
   await ProductCategory.updateOne(
     { _id: id },
-    { deleted: false, deletedAt: null },
+    {
+      deleted: false,
+      deletedAt: null,
+      position: count + 1
+    },
   );
   req.flash("success", `Khôi phục danh mục thành công!`);
   res.redirect(
@@ -248,28 +271,14 @@ module.exports.edit = async (req, res) => {
     const id = req.params.id;
     const find = { deleted: false, _id: id };
     const product = await ProductCategory.findOne(find);
-
     const records = await ProductCategory.find({ deleted: false });
 
-    function createTree(arr, parentId = "") {
-      const tree = [];
-      arr.forEach((item) => {
-        if (item.parent_id === parentId) {
-          const newItem = item.toObject();
-          const children = createTree(arr, item.id);
-          if (children.length > 0) {
-            newItem.children = children;
-          }
-          tree.push(newItem);
-        }
-      });
-      return tree;
-    }
+    const newRecords = createTreeHelper.createTree(records);
 
     res.render("admin/pages/product-category/edit", {
       pageTitle: "Chỉnh sửa danh mục sản phẩm",
       product: product,
-      records: createTree(records),
+      records: newRecords,
     });
   } catch (error) {
     res.redirect(`${systemConfig.prefixAdmin}/product-category`);

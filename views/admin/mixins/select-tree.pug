@@ -1,0 +1,5 @@
+mixin select-tree(records, level = 0)
+    each item in records
+        option(value=item.id) !{'-- '.repeat(level)}#{item.title}
+        if item.children && item.children.length > 0
+            +select-tree(item.children, level + 1)

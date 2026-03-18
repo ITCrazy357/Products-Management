@@ -95,23 +95,32 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: ids } },
         { deleted: true, deletedAt: new Date() },
       );
+      const remainingProducts = await Product.find({ deleted: false }).sort({ position: "asc" });
+      for (let i = 0; i < remainingProducts.length; i++) {
+        await Product.updateOne({ _id: remainingProducts[i]._id }, { position: i + 1 });
+      }
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+        `Xóa thành công ${ids.length} sản phẩm!`,
       );
       break;
 
     case "restore-all":
-      await Product.updateMany(
-        { _id: { $in: ids } },
-        {
-          deleted: false,
-          deletedAt: null,
-        },
-      );
+      let currentProductCount = await Product.countDocuments({ deleted: false });
+      for (const itemId of ids) {
+        currentProductCount++;
+        await Product.updateOne(
+          { _id: itemId },
+          {
+            deleted: false,
+            deletedAt: null,
+            position: currentProductCount
+          },
+        );
+      }
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`,
+        `Khôi phục thành công ${ids.length} sản phẩm!`,
       );
       break;
 
@@ -148,7 +157,8 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
-  //await Product.updateOne({ _id: id})
+  const item = await Product.findOne({ _id: id });
+
   await Product.updateOne(
     { _id: id },
     {
@@ -156,6 +166,16 @@ module.exports.deleteItem = async (req, res) => {
       deletedAt: new Date(),
     },
   );
+
+  if (item) {
+    await Product.updateMany(
+      {
+        deleted: false,
+        position: { $gt: item.position }
+      },
+      { $inc: { position: -1 } }
+    );
+  }
 
   res.redirect(req.get("Referrer") || "/admin/products");
 };
@@ -191,12 +211,14 @@ module.exports.trash = async (req, res) => {
 // [PATCH] /admin/products/restore/:id
 module.exports.restoreItem = async (req, res) => {
   const id = req.params.id;
+  const count = await Product.countDocuments({ deleted: false });
 
   await Product.updateOne(
     { _id: id },
     {
       deleted: false,
       deletedAt: null,
+      position: count + 1
     },
   );
 
@@ -217,7 +239,7 @@ module.exports.createPost = async (req, res) => {
   req.body.stock = parseInt(req.body.stock);
 
   if (req.body.position == "") {
-    const countProducts = await Product.countDocuments();
+    const countProducts = await Product.countDocuments({ deleted: false });
     req.body.position = countProducts + 1;
   } else {
     req.body.position = parseInt(req.body.position);

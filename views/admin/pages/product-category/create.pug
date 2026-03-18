@@ -1,11 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-
-mixin select-tree(items, level = 0)
-  each item in items
-    option(value=item.id) !{'-- '.repeat(level)}#{item.title}
-    if item.children && item.children.length > 0
-      +select-tree(item.children, level + 1)
+include ../../mixins/select-tree.pug
 
 block main 
     +alert-success(5000)
@@ -39,7 +34,8 @@ block main
                 name="parent_id"
             )
                 option(value="") -- Chọn danh mục cha --
-                +select-tree(records)
+                if(records)
+                    +select-tree(records)
         // Mô tả
         div(class="form-group")
             label(for="desc") Mô tả
