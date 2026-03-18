@@ -3,7 +3,7 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
-include ../../mixins/sort.pug
+include ../../mixins/sort-category.pug
 
 block main  
     h1 Danh mục sản phẩm
@@ -22,7 +22,7 @@ block main
         .card-body
             .row
                 .col-4
-                    +sort()         
+                    +sort-category()         
                 .col-8.text-end
                     a(
                         class="btn btn-outline-danger"

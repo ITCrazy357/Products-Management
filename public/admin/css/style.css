@@ -143,19 +143,22 @@
 /*End Image-Preview*/
 
 /* ===== Product Detail Page ===== */
-.product-detail-page .card {
+.product-detail-page .card,
+.category-detail-page .card {
     border: 0;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
-.product-detail-page .image-detail {
+.product-detail-page .image-detail,
+.category-detail-page .image-detail {
     width: 100%;
     height: auto;
     border-radius: 5px;
     border: 1px solid #eee;
 }
 
-.product-detail-page .inner-desc {
+.product-detail-page .inner-desc,
+.category-detail-page .inner-desc {
     margin-top: 10px;
     padding: 15px;
     background: #f8f9fa;

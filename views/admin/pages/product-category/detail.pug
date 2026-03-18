@@ -1,0 +1,47 @@
+extends ../../layouts/default.pug
+
+block main
+    .category-detail-page
+        if (product.title)
+            h1(class="mb-4") #{product.title}
+
+        .card.mb-3
+            .card-body
+                .row
+                    .col-6
+                        if (product.parent_id)
+                            div(class="mb-4") ID danh mục cha: <b>#{product.parent_id}</b>
+
+                        if (product.status)
+                            div(class="mb-4")
+                                span(class="me-2") Trạng thái:
+                                if (product.status === "active")
+                                    span(class="badge bg-success") Hoạt động
+                                else
+                                    span(class="badge bg-danger") Dừng hoạt động
+
+                        if (product.position)
+                            div(class="mb-4") Vị trí: <b>#{product.position}</b>
+                    .col-6
+                        if (product.thumbnail)
+                            img(
+                                src=product.thumbnail
+                                class="image-detail"
+                                style="width: 100%; max-width: 400px; object-fit: cover;"
+                                alt=product.title
+                            )
+
+        if (product.description)
+            .card.mb-3
+                .card-header Mô tả
+                .card-body
+                    div(class="inner-desc") !{product.description}
+
+        a(
+            href=`${prefixAdmin}/product-category/edit/${product.id}`
+            class="btn btn-warning me-2"
+        ) Chỉnh sửa
+        a(
+            href=`${prefixAdmin}/product-category`
+            class="btn btn-secondary"
+        ) Quay lại

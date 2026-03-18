@@ -1,21 +1,21 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-mixin select-tree(items, level = 0)
+mixin select-tree(items, level = 0, parent_id = "")
   each item in items
-    option(value=item.id) !{'-- '.repeat(level)}#{item.title}
+    option(value=item.id selected=(item.id == parent_id)) !{'-- '.repeat(level)}#{item.title}
     if item.children && item.children.length > 0
-      +select-tree(item.children, level + 1)
+      +select-tree(item.children, level + 1, parent_id)
 
 block main 
     +alert-success(5000)
     +alert-error(5000)
 
-    h1(class="mb-4") Thêm mới danh mục sản phẩm 
+    h1(class="mb-4") Chỉnh sửa sản phẩm 
 
     form(
-        action=`${prefixAdmin}/product-category/create`
-        id="form-create-product-category"
+        action=`${prefixAdmin}/product-category/edit/${product.id}?_method=PATCH`
+        id="form-edit-product-category"
         method="POST"
         enctype="multipart/form-data"
     )
@@ -28,9 +28,10 @@ block main
             id="title"
             name="title"
             required
+            value=product.title
             )
 
-        //Danh mục cha
+        // Danh mục cha
         div(class="form-group")
             label(for="parent") Danh mục cha
             select(
@@ -39,7 +40,8 @@ block main
                 name="parent_id"
             )
                 option(value="") -- Chọn danh mục cha --
-                +select-tree(records)
+                +select-tree(records, 0, product.parent_id)
+
         // Mô tả
         div(class="form-group")
             label(for="desc") Mô tả
@@ -48,7 +50,8 @@ block main
             id="desc"
             name="description"
             rows="5"
-            )
+            ) #{product.description}
+
 
         // Ảnh
         div(
@@ -66,7 +69,7 @@ block main
             )
             div(class="image-container")
                 img(
-                    src=""
+                    src=product.thumbnail
                     upload-image-preview
                     class="image-preview"
                 )
@@ -84,6 +87,7 @@ block main
             name="position"
             placeholder="Tự động tăng"
             min="1"
+            value=product.position
             )
 
         // Trạng thái - Hoạt động
@@ -94,7 +98,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(product.status == "active" ? true : false)
             )
             label(for="statusActive" class="form-check-label") Hoạt động
 
@@ -106,6 +110,7 @@ block main
             id="statusInActive"
             name="status"
             value="inactive"
+            checked=(product.status == "inactive" ? true : false)
             )
             label(for="statusInActive" class="form-check-label") Dừng hoạt động
 
@@ -114,4 +119,6 @@ block main
             button(
             type="submit"
             class="btn btn-primary"
-            ) Tạo mới
+            ) Cập nhật
+
+    script(src="/admin/js/product-category.js")
