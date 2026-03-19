@@ -37,16 +37,16 @@ module.exports.index = async (req, res) => {
 
   // Làm phẳng cây để phân trang (chuyển cấu trúc cây thành mảng 1 chiều theo thứ tự)
   const flatRecords = [];
-  const createFlatTree = (arr, level = 0) => {
+  const createTree = (arr, level = 0) => {
     arr.forEach((item) => {
       item.level = level;
       flatRecords.push(item);
       if (item.children && item.children.length > 0) {
-        createFlatTree(item.children, level + 1);
+        createTree(item.children, level + 1);
       }
     });
   };
-  createFlatTree(newRecords);
+  createTree(newRecords);
 
   // Pagination
   const count = flatRecords.length;
@@ -269,7 +269,10 @@ module.exports.restoreItem = async (req, res) => {
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
-    const find = { deleted: false, _id: id };
+    const find = await ProductCategory.findOne({ 
+      deleted: false,
+      _id: id 
+    });
     const product = await ProductCategory.findOne(find);
     const records = await ProductCategory.find({ deleted: false });
 
@@ -289,9 +292,7 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
   req.body.position = parseInt(req.body.position);
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
+  
   try {
     await ProductCategory.updateOne({ _id: id }, req.body);
     req.flash("success", "Cập nhật danh mục sản phẩm thành công!");
