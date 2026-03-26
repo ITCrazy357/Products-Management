@@ -12,7 +12,7 @@ const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const flash = require("express-flash");
+const flash = require("connect-flash");
 
 // =======================
 // 3. Import Local Files

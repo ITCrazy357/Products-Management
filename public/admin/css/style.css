@@ -41,65 +41,87 @@
     padding: 24px;
 }
 
-/* ===== Show Alert ===== */
-
+/* ===== Alert Container ===== */
 [show-alert] {
   position: fixed;
-  top: 70px;
-  right: 15px;
+  top: 20px;
+  right: 20px;
   z-index: 9999;
-  min-width: 300px;
-  /* Fallback nếu thiếu Bootstrap */
-  padding: 15px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+
+  min-width: 280px;
+  max-width: 350px;
+
+  padding: 12px 16px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  animation: slideIn 0.4s ease;
 }
+
+/* ===== Success ===== */
 [show-alert].alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border-color: #c3e6cb;
+  background: #e6f9f0;
+  color: #0f5132;
+  border-left: 5px solid #198754;
 }
+
+/* ===== Error ===== */
 [show-alert].alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: #f5c6cb;
+  background: #fdecea;
+  color: #842029;
+  border-left: 5px solid #dc3545;
 }
 
-/* Khi ẩn alert */
-[show-alert].alert-hidden {
-  animation-name: alert-hidden;
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
+/* ===== Close Button ===== */
+[show-alert] .close-alert {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: inherit;
+  opacity: 0.6;
+  transition: 0.2s;
 }
 
-/* Animation ẩn alert */
-@keyframes alert-hidden {
+[show-alert] .close-alert:hover {
+  opacity: 1;
+}
+
+/* ===== Animation hiện ===== */
+@keyframes slideIn {
   from {
-    right: 15px;
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ===== Animation ẩn ===== */
+[show-alert].alert-hidden {
+  animation: slideOut 0.4s ease forwards;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
     opacity: 1;
   }
   to {
-    right: -100%;
+    transform: translateX(120%);
     opacity: 0;
   }
 }
-
-/* ===== Close Alert Button ===== */
-
-[show-alert] [close-alert] {
-  background: #ffffffc4;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  font-weight: 600;
-  border-radius: 50%;
-  cursor: pointer;
-  margin-left: 15px;
-}
-
-/* ===== End Close Alert Button ===== */
 /* ===== End Show Alert ===== */
 
 /*Image-Preview*/
