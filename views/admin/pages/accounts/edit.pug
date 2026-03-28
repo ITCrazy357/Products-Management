@@ -1,0 +1,119 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-success(5000)
+    +alert-error(5000)
+    h1(class="mb-4") Chỉnh sửa tài khoản
+
+    if(roles)
+        form(
+            action=`${prefixAdmin}/accounts/edit/${data.id}?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+
+            div(class="form-group")
+                label(for="fullname") Họ tên
+                input(
+                    type="text"
+                    class="form-control"
+                    name="fullname"
+                    id="fullname"
+                    required 
+                    value=data.fullname
+                )
+
+            div(class="form-group")
+                label(for="email") Email
+                input(
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    required
+                    value=data.email
+                )
+
+            div(class="form-group")
+                label(for="password") Mật khẩu
+                input(
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    id="password"
+                )
+
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(
+                    type="text"
+                    class="form-control"
+                    name="phone"
+                    id="phone"
+                    value=data.phone
+                )
+
+            div(class="form-group")
+                label(for="avatar") Ảnh đại diện
+                input(
+                    type="file"
+                    class="form-control-file"
+                    name="avatar"
+                    id="avatar"
+                    accept="image/*"
+                    upload-image-input
+                )
+                img(
+                    src=data.avatar
+                    class="image-preview"
+                    upload-image-preview
+                )
+
+            div(class="form-group") 
+                label(for="role_id") Phân quyền *
+                select(
+                    class="form-control"
+                    id="role_id"
+                    name="role_id"
+                    required
+                )
+                    option(value="" disabled selected) Chọn vai trò
+                    if(roles && roles.length > 0)
+                        each item in roles
+                            option(
+                                value=item.id,
+                                selected=(item.id == data.role_id? true : false)
+                            ) #{item.title}
+            
+            if(!roles || roles.length === 0)
+                div(class="mt-2 text-danger") Vui lòng tạo nhóm quyền trước khi cập nhật tài khoản 
+                    a(href=`${prefixAdmin}/roles/create`, class="btn btn-outline-success") Tạo nhóm quyền mới
+                        
+            div(class="form-group form-check form-check-inline") 
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked=(!data || data.status === "active" ? true : false)
+                ) 
+                label(for="statusActive" class="form-check-label") Hoạt động
+            
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInactive"
+                    name="status"
+                    value="inactive"
+                    checked=(data && data.status === "inactive" ? true : false)
+                ) 
+                label(for="statusInactive" class="form-check-label") Ngừng hoạt động
+
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Cập nhật
