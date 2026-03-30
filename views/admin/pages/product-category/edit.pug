@@ -8,117 +8,118 @@ mixin select-tree(items, level = 0, parent_id = "")
       +select-tree(item.children, level + 1, parent_id)
 
 block main 
-    +alert-success(5000)
-    +alert-error(5000)
+    if(role.permissions.includes("products-category_edit"))
+        +alert-success(5000)
+        +alert-error(5000)
 
-    h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
+        h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
 
-    form(
-        action=`${prefixAdmin}/product-category/edit/${product.id}?_method=PATCH`
-        id="form-edit-product-category"
-        method="POST"
-        enctype="multipart/form-data"
-    )
-        // Tiêu đề
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-            type="text"
-            class="form-control"
-            id="title"
-            name="title"
-            required
-            value=product.title
-            )
-
-        // Danh mục cha
-        div(class="form-group")
-            label(for="parent") Danh mục cha
-            select(
-                class="form-control"
-                id="parent"
-                name="parent_id"
-            )
-                option(value="") -- Chọn danh mục cha --
-                +select-tree(records, 0, product.parent_id)
-
-        // Mô tả
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(
-            class="form-control textarea-mce"
-            id="desc"
-            name="description"
-            rows="5"
-            ) #{product.description}
-
-
-        // Ảnh
-        div(
-            class="form-group"
-            upload-image
+        form(
+            action=`${prefixAdmin}/product-category/edit/${product.id}?_method=PATCH`
+            id="form-edit-product-category"
+            method="POST"
+            enctype="multipart/form-data"
         )
-            label(for="thumbnail") Ảnh
-            input(
-            type="file"
-            class="form-control-file"
-            id="thumbnail"
-            name="thumbnail"
-            accept="image/*"
-            upload-image-input
-            )
-            div(class="image-container")
-                img(
-                    src=product.thumbnail
-                    upload-image-preview
-                    class="image-preview"
+            // Tiêu đề
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+                value=product.title
                 )
-                span(
-                    upload-image-close 
-                    class="close-image"
-                ) x
-        // Vị trí
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(
-            type="number"
-            class="form-control"
-            id="position"
-            name="position"
-            placeholder="Tự động tăng"
-            min="1"
-            value=product.position
-            )
 
-        // Trạng thái - Hoạt động
-        div(class="form-group form-check form-check-inline")
-            input(
+            // Danh mục cha
+            div(class="form-group")
+                label(for="parent") Danh mục cha
+                select(
+                    class="form-control"
+                    id="parent"
+                    name="parent_id"
+                )
+                    option(value="") -- Chọn danh mục cha --
+                    +select-tree(records, 0, product.parent_id)
+
+            // Mô tả
+            div(class="form-group")
+                label(for="desc") Mô tả
+                textarea(
+                class="form-control textarea-mce"
+                id="desc"
+                name="description"
+                rows="5"
+                ) #{product.description}
+
+
+            // Ảnh
+            div(
+                class="form-group"
+                upload-image
+            )
+                label(for="thumbnail") Ảnh
+                input(
+                type="file"
+                class="form-control-file"
+                id="thumbnail"
+                name="thumbnail"
+                accept="image/*"
+                upload-image-input
+                )
+                div(class="image-container")
+                    img(
+                        src=product.thumbnail
+                        upload-image-preview
+                        class="image-preview"
+                    )
+                    span(
+                        upload-image-close 
+                        class="close-image"
+                    ) x
+            // Vị trí
+            div(class="form-group")
+                label(for="position") Vị trí
+                input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tự động tăng"
+                min="1"
+                value=product.position
+                )
+
+            // Trạng thái - Hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked=(product.status == "active" ? true : false)
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+
+            // Trạng thái - Dừng hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(
                 type="radio"
                 class="form-check-input"
-                id="statusActive"
+                id="statusInActive"
                 name="status"
-                value="active"
-                checked=(product.status == "active" ? true : false)
-            )
-            label(for="statusActive" class="form-check-label") Hoạt động
+                value="inactive"
+                checked=(product.status == "inactive" ? true : false)
+                )
+                label(for="statusInActive" class="form-check-label") Dừng hoạt động
 
-        // Trạng thái - Dừng hoạt động
-        div(class="form-group form-check form-check-inline")
-            input(
-            type="radio"
-            class="form-check-input"
-            id="statusInActive"
-            name="status"
-            value="inactive"
-            checked=(product.status == "inactive" ? true : false)
-            )
-            label(for="statusInActive" class="form-check-label") Dừng hoạt động
+            // Nút submit
+            div(class="form-group")
+                button(
+                type="submit"
+                class="btn btn-primary"
+                ) Cập nhật
 
-        // Nút submit
-        div(class="form-group")
-            button(
-            type="submit"
-            class="btn btn-primary"
-            ) Cập nhật
-
-    script(src="/admin/js/product-category.js")
+        script(src="/admin/js/product-category.js")

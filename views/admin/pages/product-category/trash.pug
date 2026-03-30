@@ -3,6 +3,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-trash-multi.pug
 
 block main
+    if(role.permissions.includes("products-category_delete"))
     h1(class="mb-4") #{pageTitle}
 
     a.btn.btn-primary.mb-3(href=`${prefixAdmin}/product-category`)

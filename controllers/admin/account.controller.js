@@ -54,6 +54,11 @@ module.exports.createPost = async (req, res) => {
   } else {
     req.flash("success", "Tạo tài khoản thành công!");
     req.body.password = md5(req.body.password);
+    
+    // Bổ sung: Tạo token chuỗi ngẫu nhiên duy nhất cho mỗi tài khoản
+    const crypto = require("crypto");
+    req.body.token = crypto.randomBytes(20).toString("hex");
+
     const record = new Account(req.body);
     await record.save();
     res.redirect(`${systemConfig.prefixAdmin}/accounts`);
