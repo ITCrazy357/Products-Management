@@ -13,6 +13,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const moment = require("moment");
 
 // =======================
 // 3. Import Local Files
@@ -80,7 +81,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 // 10. App Local Variables
 // =======================
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-
+app.locals.moment = moment;
 // =======================
 // 11. Routes
 // =======================

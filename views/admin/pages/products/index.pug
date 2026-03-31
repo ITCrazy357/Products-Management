@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main  
     h1 Danh sách sản phẩm
@@ -57,6 +58,7 @@ block main
                         th Giá
                         th Vị trí
                         th Trạng thái
+                        th Người tạo
                         th Hành động
                 tbody
                     each item, index in products
@@ -102,6 +104,10 @@ block main
                                             button-change-status
                                         )
                                             span.badge.bg-secondary Dừng hoạt động
+                            td 
+                                p #{item.accountFullName || "N/A"}
+                                p 
+                                    +formatDateTime(item.createdBy.createdAt)
                             td
                                 a(
                                     href=`${prefixAdmin}/products/detail/${item.id}`

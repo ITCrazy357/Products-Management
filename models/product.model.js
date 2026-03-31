@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slug = require('mongoose-slug-updater');
+const { create } = require("node:domain");
 mongoose.plugin(slug)
 const productSchema = new mongoose.Schema(
     {
@@ -20,11 +21,22 @@ const productSchema = new mongoose.Schema(
             slug: "title",
             unique: true
         },
+        createdBy: {
+            account_id: String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        },
         deleted: {
             type: Boolean,
             default: false
         },
-        deletedAt: Date
+        deletedAt: Date,
+        deletedBy: {
+            account_id: String,
+            deletedAt: Date
+        },
     }, {
         timestamps: true
     }
