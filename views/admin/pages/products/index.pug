@@ -59,6 +59,7 @@ block main
                         th Vị trí
                         th Trạng thái
                         th Người tạo
+                        th Người cập nhật
                         th Hành động
                 tbody
                     each item, index in products
@@ -105,9 +106,16 @@ block main
                                         )
                                             span.badge.bg-secondary Dừng hoạt động
                             td 
-                                p #{item.accountFullName || "N/A"}
-                                p 
-                                    +formatDateTime(item.createdBy.createdAt)
+                                p #{item.creatorFullName || "N/A"}
+                                if item.createdBy && item.createdBy.createdAt
+                                    p 
+                                        +formatDateTime(item.createdBy.createdAt)
+                            td 
+                                - const updateBy = item.updatedBy && item.updatedBy.length > 0 ? item.updatedBy[item.updatedBy.length - 1] : null
+                                if(updateBy)
+                                    p #{item.updaterFullName || "N/A"}
+                                    p 
+                                        +formatDateTime(updateBy.updatedAt)
                             td
                                 a(
                                     href=`${prefixAdmin}/products/detail/${item.id}`

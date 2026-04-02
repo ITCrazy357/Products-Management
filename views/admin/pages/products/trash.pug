@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/form-trash-multi.pug
+include ../../mixins/moment.pug
 
 block main
     if(role.permissions.includes("products_delete"))
@@ -30,6 +31,7 @@ block main
                         th Hình ảnh
                         th Tiêu đề
                         th Giá
+                        th Người xóa
 
                 tbody
                     each item, index in products
@@ -48,6 +50,10 @@ block main
                                 )
                             td #{item.title}
                             td #{item.price}$
+                            td 
+                                p #{item.accountFullName || "N/A"}
+                                p 
+                                    +formatDateTime(item.deletedAt)
                                 td
                                     form(
                                         action=`${prefixAdmin}/products/restore/${item._id}?_method=PATCH`
