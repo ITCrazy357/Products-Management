@@ -1,4 +1,6 @@
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
+const createTreeHelper = require("../../helpers/createTree");
 //[GET] / product
 module.exports.index = async (req, res) => {
   const products = await Product.find({
@@ -14,9 +16,15 @@ module.exports.index = async (req, res) => {
     return item;
   });
 
+  const productCategory = await ProductCategory.find({
+    deleted: false
+  });
+  const newProductCategory = createTreeHelper.createTree(productCategory);
+
   res.render("client/pages/products/index", {
     products: newProducts,
     pageTitle: "Danh Sách Sản Phẩm",
+    layoutProductCategory: newProductCategory
   });
 };
 
@@ -38,9 +46,15 @@ module.exports.detail = async (req, res) => {
       ).toFixed(0);
     }
 
+    const productCategory = await ProductCategory.find({
+      deleted: false
+    });
+    const newProductCategory = createTreeHelper.createTree(productCategory);
+
     res.render("client/pages/products/detail", {
       pageTitle: product.title,
       product: product,
+      layoutProductCategory: newProductCategory
     });
   } catch (error) {
     res.redirect("/products");

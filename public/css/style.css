@@ -22,16 +22,90 @@
 
 .header .inner-menu > ul > li {
     margin-left: 20px;
+    position: relative;
+    padding: 15px 0; /* Tạo vùng đệm để khi trỏ chuột xuống sub-menu không bị ngắt quãng */
 }
 
 .header .inner-menu > ul > li > a {
     font-size: 16px;
     color: #007bff;
     font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
 }
 
 .header .inner-menu > ul > li > a:hover {
-    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* ===== SUB-MENU ĐA CẤP (MULTI-LEVEL) ===== */
+.header .inner-menu ul li ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    min-width: 220px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+/* Hover để hiện sub-menu */
+.header .inner-menu ul li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Sub-menu từ cấp 2 trở đi sẽ hiển thị dạng xổ dọc xuống (accordion) để không bị khuất khỏi màn hình */
+.header .inner-menu ul li ul li {
+    position: relative;
+}
+.header .inner-menu ul li ul li ul {
+    position: static;
+    display: none;
+    max-height: none;
+    overflow-y: visible;
+    box-shadow: none;
+    padding-left: 15px;
+    background: #fdfdfd;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hover để hiện menu cấp 3, 4... */
+.header .inner-menu ul li ul li:hover > ul {
+    display: block;
+}
+
+/* Định dạng cho từng mục trong Sub-menu */
+.header .inner-menu ul li ul li a {
+    display: block;
+    padding: 12px 15px;
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid #f1f1f1;
+    transition: all 0.2s ease;
+    text-transform: none; /* Khôi phục lại chữ thường cho menu con*/
+}
+
+.header .inner-menu ul li ul li:last-child a {
+    border-bottom: none;
+}
+
+.header .inner-menu ul li ul li a:hover {
+    background: #f8f9fa;
+    color: #007bff;
+    padding-left: 20px; /* Hiệu ứng thọt lề nhẹ khi hover tạo điểm nhấn cực đẹp */
 }
 
 /* ===== FOOTER ===== */
