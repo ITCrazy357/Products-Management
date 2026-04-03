@@ -1,0 +1,31 @@
+extends ../../layouts/default
+
+block main 
+    h1(class="mb-4") Thông tin cá nhân
+
+    if(user.avatar)
+        img(src=user.avatar, alt="Avatar", width="150", height="150", class="mb-3 rounded-circle")
+    else
+        img(src=`${prefixPublic}/images/default-avatar.png`, alt="Avatar", width="150", height="150", class="mb-3 rounded-circle")
+
+    if(user.fullname)
+        p(class="mb-2") Họ và tên: <b>#{user.fullname}</b>
+
+    if(user.email)
+        p(class="mb-2") Email: <b>#{user.email}</b>
+
+    if(user.phone)
+        p(class="mb-2") Số điện thoại: <b>#{user.phone}</b>
+
+    p 
+        span Trạng thái: 
+        span
+        | <b>#{user.status === 'active' ? "Đang hoạt động" : "Dừng hoạt động"}</b>
+
+        if(role.title)
+            p Phân quyền: <b>#{role.title}</b>
+        
+        a(
+            href=`${prefixAdmin}/my-account/edit`
+            class="btn btn-primary btn-sm mt-3"
+        ) Sửa thông tin
