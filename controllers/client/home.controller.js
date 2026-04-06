@@ -9,10 +9,20 @@ module.exports.index = async (req, res) => {
     status: "active",
   }).limit(6);
 
-  const newProducts = productHelper.priceNewProduct(productsFeatured);
+  const newProductsFeatured = productHelper.priceNewProduct(productsFeatured);
+
+  //Hiển thị danh sách sản phẩm mới nhất
+  const productNew = await Product.find({
+    deleted: false,
+    status: "active",
+  }).sort({position: "desc"}).limit(6);
+
+  const newproductNew = productHelper.priceNewProduct(productNew);
+  //ENd Hiển thị danh sách sản phẩm mới nhất
 
   res.render("client/pages/home/index", {
     pageTitle: "Trang Chủ",
-    productsFeatured: newProducts,
+    productsFeatured: newProductsFeatured,
+    productNew: newproductNew,
   });
 };

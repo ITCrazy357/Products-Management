@@ -9,3 +9,11 @@ block main
                                 .col-12
                                         +box-head("Sản Phẩm Nổi Bật")
                         +product-grid(productsFeatured) 
+
+        //- /* Hiển thị danh sách sản phẩm mới nhất */
+        .section-products-featured.my-5
+                .container
+                        .row
+                                .col-12
+                                        +box-head("Sản Phẩm Mới Nhất")
+                        +product-grid(productNew) 
