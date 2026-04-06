@@ -30,8 +30,7 @@ module.exports.index = async (req, res) => {
     sort.position = "desc";
   }
 
-  const records = await ProductCategory.find(find)
-    .sort(sort);
+  const records = await ProductCategory.find(find).sort(sort);
 
   const newRecords = createTreeHelper.createTree(records);
 
@@ -53,10 +52,13 @@ module.exports.index = async (req, res) => {
   let objectPagination = paginationHelper(
     { currentPage: 1, limitItems: 4 },
     req.query,
-    count
+    count,
   );
 
-  const paginatedRecords = flatRecords.slice(objectPagination.skip, objectPagination.skip + objectPagination.limitItems);
+  const paginatedRecords = flatRecords.slice(
+    objectPagination.skip,
+    objectPagination.skip + objectPagination.limitItems,
+  );
 
   res.render("admin/pages/product-category/index", {
     pageTitle: "Danh mục sản phẩm",
@@ -85,16 +87,21 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
-  if (req.body.position === "") {
-    const count = await ProductCategory.countDocuments({ deleted: false });
-    req.body.position = count + 1;
-  } else {
-    req.body.position = parseInt(req.body.position);
-  }
+  const permession = res.locals.permession;
+  if (permession.includes("product-category_create")) {
+    if (req.body.position === "") {
+      const count = await ProductCategory.countDocuments({ deleted: false });
+      req.body.position = count + 1;
+    } else {
+      req.body.position = parseInt(req.body.position);
+    }
 
-  const record = new ProductCategory(req.body);
-  await record.save();
-  res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+    const record = new ProductCategory(req.body);
+    await record.save();
+    res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+  } else {
+    return;
+  }
 };
 
 // [PATCH] /admin/product-category/change-status/:status/:id
@@ -146,15 +153,22 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: ids } },
         { deleted: true, deletedAt: new Date() },
       );
-      const remainingItems = await ProductCategory.find({ deleted: false }).sort({ position: "asc" });
+      const remainingItems = await ProductCategory.find({
+        deleted: false,
+      }).sort({ position: "asc" });
       for (let i = 0; i < remainingItems.length; i++) {
-        await ProductCategory.updateOne({ _id: remainingItems[i]._id }, { position: i + 1 });
+        await ProductCategory.updateOne(
+          { _id: remainingItems[i]._id },
+          { position: i + 1 },
+        );
       }
       req.flash("success", `Xóa thành công ${ids.length} danh mục!`);
       break;
 
     case "restore-all":
-      let currentCount = await ProductCategory.countDocuments({ deleted: false });
+      let currentCount = await ProductCategory.countDocuments({
+        deleted: false,
+      });
       for (const itemId of ids) {
         currentCount++;
         await ProductCategory.updateOne(
@@ -162,7 +176,7 @@ module.exports.changeMulti = async (req, res) => {
           {
             deleted: false,
             deletedAt: null,
-            position: currentCount
+            position: currentCount,
           },
         );
       }
@@ -175,12 +189,9 @@ module.exports.changeMulti = async (req, res) => {
       break;
 
     case "change-position":
-      // console.log(ids);
       for (const item of ids) {
         let [id, position] = item.split("-");
         position = parseInt(position);
-        // console.log(id)
-        // console.log(position)
         await ProductCategory.updateOne({ _id: id }, { position: position });
         req.flash(
           "success",
@@ -212,9 +223,9 @@ module.exports.deleteItem = async (req, res) => {
     await ProductCategory.updateMany(
       {
         deleted: false,
-        position: { $gt: item.position }
+        position: { $gt: item.position },
       },
-      { $inc: { position: -1 } }
+      { $inc: { position: -1 } },
     );
   }
 
@@ -226,6 +237,7 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/product-category/trash
 module.exports.trash = async (req, res) => {
+  
   let find = { deleted: true };
 
   const countCategory = await ProductCategory.countDocuments(find);
@@ -256,7 +268,7 @@ module.exports.restoreItem = async (req, res) => {
     {
       deleted: false,
       deletedAt: null,
-      position: count + 1
+      position: count + 1,
     },
   );
   req.flash("success", `Khôi phục danh mục thành công!`);
@@ -269,9 +281,9 @@ module.exports.restoreItem = async (req, res) => {
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
-    const find = await ProductCategory.findOne({ 
+    const find = await ProductCategory.findOne({
       deleted: false,
-      _id: id 
+      _id: id,
     });
     const product = await ProductCategory.findOne(find);
     const records = await ProductCategory.find({ deleted: false });
@@ -292,7 +304,7 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
   req.body.position = parseInt(req.body.position);
-  
+
   try {
     await ProductCategory.updateOne({ _id: id }, req.body);
     req.flash("success", "Cập nhật danh mục sản phẩm thành công!");

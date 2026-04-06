@@ -1,0 +1,244 @@
+/* ===== HEADER ===== */
+.header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .inner-logo img {
+    max-height: 50px;
+    max-width: 100%;
+}
+
+/* MENU */
+.header .inner-menu > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.header .inner-menu > ul > li {
+    margin-left: 20px;
+    position: relative;
+    padding: 15px 0; /* Tạo vùng đệm để khi trỏ chuột xuống sub-menu không bị ngắt quãng */
+}
+
+.header .inner-menu > ul > li > a {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header .inner-menu > ul > li > a:hover {
+    color: #0056b3;
+}
+
+/* ===== SUB-MENU ĐA CẤP (MULTI-LEVEL) ===== */
+.header .inner-menu ul li ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    min-width: 220px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+/* Hover để hiện sub-menu */
+.header .inner-menu ul li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Sub-menu từ cấp 2 trở đi sẽ hiển thị dạng xổ dọc xuống (accordion) để không bị khuất khỏi màn hình */
+.header .inner-menu ul li ul li {
+    position: relative;
+}
+.header .inner-menu ul li ul li ul {
+    position: static;
+    display: none;
+    max-height: none;
+    overflow-y: visible;
+    box-shadow: none;
+    padding-left: 15px;
+    background: #fdfdfd;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hover để hiện menu cấp 3, 4... */
+.header .inner-menu ul li ul li:hover > ul {
+    display: block;
+}
+
+/* Định dạng cho từng mục trong Sub-menu */
+.header .inner-menu ul li ul li a {
+    display: block;
+    padding: 12px 15px;
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid #f1f1f1;
+    transition: all 0.2s ease;
+    text-transform: none; /* Khôi phục lại chữ thường cho menu con*/
+}
+
+.header .inner-menu ul li ul li:last-child a {
+    border-bottom: none;
+}
+
+.header .inner-menu ul li ul li a:hover {
+    background: #f8f9fa;
+    color: #007bff;
+    padding-left: 20px; /* Hiệu ứng thọt lề nhẹ khi hover tạo điểm nhấn cực đẹp */
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+/* ===== BOX HEAD ===== */
+.box-head {
+    margin-bottom: 20px;
+}
+
+.box-head .inner-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1056ec;
+}
+
+/* ===== PRODUCT ITEM ===== */
+.product-item {
+    border: 1px solid #f0f0f0;
+    padding: 15px;
+    background: #fff;
+    height: 100%;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.product-item:hover {
+    box-shadow: 0 8px 24px rgba(7, 37, 100, 0.945);
+    transform: translateY(-5px);
+    border-color: #007bff;
+}
+
+/* IMAGE */
+.product-item .inner-image {
+    width: 100%;
+    height: 220px;          /* KHỐNG CHẾ CHIỀU CAO */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.product-item:hover .inner-image img {
+    transform: scale(1.05);
+}
+
+.product-item .inner-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;    /* không zoom */
+    transition: transform 0.3s ease;
+}
+
+
+
+/* CONTENT */
+.product-item .inner-content {
+    text-align: left;
+}
+
+.product-item .inner-content .inner-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Chỉ hiển thị tối đa 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-item .inner-content .inner-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.product-item .inner-content .inner-title a:hover {
+    color: #007bff;
+}
+
+/* PRICE */
+.product-item .inner-price-new {
+    font-size: 18px;
+    font-weight: 700;
+    color: #148805e3; /* Đỏ đun hiện đại */
+    display: inline-block;
+}
+
+.product-item .inner-price-old {
+    font-size: 14px;
+    color: #eb0404;
+    text-decoration: line-through;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+/* DISCOUNT */
+.product-item .inner-discount {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff3945; /* Đỏ cam nổi bật */
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+/* FEATURED */
+.product-item .inner-featured {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #28a745; /* Màu xanh lá nổi bật */
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 10;
+}
