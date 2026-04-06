@@ -15,7 +15,6 @@ const productCategorySchema = new mongoose.Schema(
         slug: { 
             type: String, 
             slug: "title",
-            unique: true
         },
         deleted: {
             type: Boolean,

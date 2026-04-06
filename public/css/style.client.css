@@ -9,7 +9,7 @@
     max-width: 100%;
 }
 
-/* MENU */
+/* ===== MENU CHA ===== */
 .header .inner-menu > ul {
     list-style: none;
     padding: 0;
@@ -23,9 +23,20 @@
 .header .inner-menu > ul > li {
     margin-left: 20px;
     position: relative;
-    padding: 15px 0; /* Tạo vùng đệm để khi trỏ chuột xuống sub-menu không bị ngắt quãng */
+    padding: 15px ; /* Tăng padding-bottom để tạo khoảng cách cho submenu */
 }
 
+/* Tạo vùng đệm tránh mất hover */
+.header .inner-menu > ul > li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 10px;
+    height: 10px;
+}
+
+/* Link menu */
 .header .inner-menu > ul > li > a {
     font-size: 16px;
     color: #007bff;
@@ -39,13 +50,12 @@
     color: #0056b3;
 }
 
-/* ===== SUB-MENU ĐA CẤP (MULTI-LEVEL) ===== */
+/* ===== SUBMENU CẤP 1 ===== */
 .header .inner-menu ul li ul {
     list-style: none;
     padding: 0;
-    margin: 0;
     position: absolute;
-    top: 100%;
+    top: calc(100% - 15px);
     left: 0;
     background: #ffffff;
     min-width: 220px;
@@ -53,40 +63,34 @@
     overflow-y: auto;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     border-radius: 6px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
+    display: none; /* dùng display để tránh bug */
     z-index: 999;
 }
 
-/* Hover để hiện sub-menu */
+/* Hover hiện submenu cấp 1 */
 .header .inner-menu ul li:hover > ul {
-    opacity: 1;
-    visibility: visible;
+    display: block;
 }
 
-/* Sub-menu từ cấp 2 trở đi sẽ hiển thị dạng xổ dọc xuống (accordion) để không bị khuất khỏi màn hình */
+/* ===== SUBMENU CẤP 2, 3 (ACCORDION XỔ XUỐNG) ===== */
 .header .inner-menu ul li ul li {
     position: relative;
 }
+
+/* submenu cấp sâu */
 .header .inner-menu ul li ul li ul {
-    position: static;
+    position: static;       /* giữ dạng xổ xuống */
     display: none;
-    max-height: none;
-    overflow-y: visible;
-    box-shadow: none;
     padding-left: 15px;
     background: #fdfdfd;
-    opacity: 1;
-    visibility: visible;
 }
 
-/* Hover để hiện menu cấp 3, 4... */
+/* Hover hiện submenu cấp sâu */
 .header .inner-menu ul li ul li:hover > ul {
     display: block;
 }
 
-/* Định dạng cho từng mục trong Sub-menu */
+/* ===== STYLE ITEM ===== */
 .header .inner-menu ul li ul li a {
     display: block;
     padding: 12px 15px;
@@ -95,7 +99,7 @@
     text-decoration: none;
     border-bottom: 1px solid #f1f1f1;
     transition: all 0.2s ease;
-    text-transform: none; /* Khôi phục lại chữ thường cho menu con*/
+    text-transform: none;
 }
 
 .header .inner-menu ul li ul li:last-child a {
@@ -105,7 +109,7 @@
 .header .inner-menu ul li ul li a:hover {
     background: #f8f9fa;
     color: #007bff;
-    padding-left: 20px; /* Hiệu ứng thọt lề nhẹ khi hover tạo điểm nhấn cực đẹp */
+    padding-left: 20px;
 }
 
 /* ===== FOOTER ===== */

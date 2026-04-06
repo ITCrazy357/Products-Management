@@ -281,11 +281,10 @@ module.exports.restoreItem = async (req, res) => {
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
-    const find = await ProductCategory.findOne({
+    const product = await ProductCategory.findOne({
       deleted: false,
       _id: id,
     });
-    const product = await ProductCategory.findOne(find);
     const records = await ProductCategory.find({ deleted: false });
 
     const newRecords = createTreeHelper.createTree(records);
