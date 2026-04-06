@@ -17,38 +17,40 @@ module.exports.index = async (req, res) => {
   });
 };
 
-//[GET] / product/:slug
+//[GET] / product/:slugProduct
 module.exports.detail = async (req, res) => {
   try {
     const find = {
       deleted: false,
-      slug: req.params.slug,
+      slug: req.params.slugProduct,
       status: "active",
     };
 
     const product = await Product.findOne(find);
 
-    if (product) {
-      product.priceNew = (
-        (product.price * (100 - product.discountPercentage)) /
-        100
-      ).toFixed(0);
+    if (!product) {
+      return res.redirect("/products");
     }
 
-    const productCategory = await ProductCategory.find({
-      deleted: false,
-    });
-    const newProductCategory = createTreeHelper.createTree(productCategory);
+    if (product.product_category_id) { 
+      const category = await ProductCategory.findOne({
+        _id: product.product_category_id,
+        status: "active",
+        deleted: false,
+      });
+      product.category = category;
+    }
 
-    res.render("client/pages/products/detail", {
-      pageTitle: product.title,
-      product: product,
-      layoutProductCategory: newProductCategory,
-    });
-  } catch (error) {
+    product.priceNew = productHelper.priceNewProduct(product);
+
+  res.render("client/pages/products/detail", {
+    pageTitle: product.title,
+    product: product,
+  });
+    }catch (error) {
     res.redirect("/products");
   }
-};
+}
 
 //[GET] / product/:slugCategoty
 module.exports.category = async (req, res) => {
@@ -58,7 +60,7 @@ module.exports.category = async (req, res) => {
       deleted: false,
     });
 
-    const listSubCategory = await getSubCategory(category.id);
+    const listSubCategory = await productCategoryHelper.getSubCategory(category.id);
 
     const listSubCategoryId = listSubCategory.map((item) => item.id);
 
