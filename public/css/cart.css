@@ -1,0 +1,69 @@
+/* ===== CART PAGE ===== */
+.cart-page .table {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cart-page .table th {
+    background-color: #f8f9fa;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.cart-page .table td {
+    vertical-align: middle;
+}
+
+.cart-page .product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.cart-page .product-title {
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.cart-page .product-title:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Ẩn mũi tên tăng giảm mặc định của thẻ input type="number" */
+.cart-page .input-quantity::-webkit-inner-spin-button,
+.cart-page .input-quantity::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cart-page .input-quantity {
+    -moz-appearance: textfield; /* Dành cho Firefox */
+    box-shadow: none !important;
+    border-left: 0;
+    border-right: 0;
+    background: #fff;
+}
+
+/* Tùy biến nút + / - */
+.cart-page .btn-minus,
+.cart-page .btn-plus {
+    border-color: #ced4da;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: all 0.2s;
+}
+
+.cart-page .btn-minus:hover,
+.cart-page .btn-plus:hover {
+    background-color: #e2e6ea;
+}

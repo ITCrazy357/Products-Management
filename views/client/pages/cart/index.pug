@@ -4,13 +4,17 @@ include ../../mixins/box-head.pug
 
 
 block main 
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
+    link(rel="stylesheet", href="/css/cart.css")
     +alert-success(5000)
     +alert-error(5000)
 
-    .container.my-3 
+    .container.my-3.cart-page 
+        .box-head 
+            h1.inner-title Giỏ hàng của bạn
         .row
             .col-12
-                table.table.table-bordered
+                table.table.table-bordered.table-hover.text-center.align-middle
                     thead
                         tr
                             th STT
@@ -26,26 +30,36 @@ block main
                                 tr
                                     td #{index + 1}
                                     td
-                                        img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="80px")
+                                        img(src=item.productInfo.thumbnail, alt=item.productInfo.title, class="product-img")
                                     td
-                                        a(href=`/products/detail/${item.product_id}`) #{item.productInfo.title}
-                                    td #{item.productInfo.priceNew}
+                                        a(href=`/products/detail/${item.product_id}` class="product-title") #{item.productInfo.title}
+                                    td.text-danger.font-weight-bold #{item.productInfo.priceNew}$
                                     td
-                                        input(
-                                            type="number",
-                                            name="quantity",
-                                            value=item.quantity,
-                                            min="1",
-                                            item-id=item.product_id,
-                                            style="width: 60px"
-                                        )
-                                    td #{item.totalPrice}
+                                        div(class="input-group mx-auto" style="width: 120px;")
+                                            button(class="btn btn-outline-secondary btn-minus" type="button")
+                                                i.fa-solid.fa-minus
+                                            input(
+                                                type="number",
+                                                name="quantity",
+                                                value=item.quantity,
+                                                min="1",
+                                                item-id=item.product_id,
+                                                class="form-control text-center input-quantity px-0"
+                                            )
+                                            button(class="btn btn-outline-secondary btn-plus" type="button")
+                                                i.fa-solid.fa-plus
+                                    td.font-weight-bold #{item.totalPrice}$
                                     td
                                         a(
                                             href=`/cart/delete/${item.product_id}`, class="btn btn-danger"
-                                        ) Xóa
+                                        )
+                                            i.fa-solid.fa-trash-can 
+                                            |  Xóa
                         else 
                             p Không có sản phẩm nào trong giỏ hàng
-                h3.text-right Tổng đơn hàng: #{cartDetail.totalPrice}$
-                .text-right.mt-3
-                    a(href="/checkout", class="btn btn-success") THANH TOÁN
+                if(cartDetail.products.length > 0)
+                    h3.text-right Tổng đơn hàng: <span class="text-danger font-weight-bold">#{cartDetail.totalPrice}$</span>
+                    .text-right.mt-3
+                        a(href="/checkout", class="btn btn-success btn-lg") THANH TOÁN
+
+    script(src="/js/cart.js")

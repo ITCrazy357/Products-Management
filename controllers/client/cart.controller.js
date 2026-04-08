@@ -22,13 +22,13 @@ module.exports.index = async (req, res) => {
       item.productInfo = productInfo;
 
       item.totalPrice = item.quantity * productInfo.priceNew;
-
     }
   }
 
-  cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0);
-
-
+  cart.totalPrice = cart.products.reduce(
+    (sum, item) => sum + item.totalPrice,
+    0,
+  );
 
   res.render("client/pages/cart/index", {
     pageTitle: "Giỏ Hàng",
@@ -81,4 +81,23 @@ module.exports.addPost = async (req, res) => {
   }
 
   res.send("OK");
+};
+
+//[GET] /cart/delete/:productId
+module.exports.delete = async (req, res) => {
+  const productId = req.params.productId;
+  const cartId = req.cookies.cartId;
+
+  await Cart.updateOne(
+    {
+      _id: cartId,
+    },
+    {
+      $pull: { products: { product_id: productId } },
+    },
+  );
+
+  req.flash("success", "Xóa thành công");
+
+  res.redirect("/cart");
 };
