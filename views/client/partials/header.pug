@@ -8,7 +8,7 @@ header.header
                     a(href="/")
                         img(src="/images/logo.svg", alt="Logo")
 
-            .col-5 
+            .col-4 
                 form(
                     action="/search"
                     method="GET"
@@ -37,3 +37,7 @@ header.header
                             -const pathProduct = "/products"
                             a(href=pathProduct) Sản Phẩm ▾
                             +sub-menu(layoutProductCategory, pathProduct)
+                        li 
+                            a(href="/cart") Giỏ Hàng (#{miniCart ? miniCart.totalQuantity : 0})
+                        li 
+                            a(href="/login") Đăng Nhập
