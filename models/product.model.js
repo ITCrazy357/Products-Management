@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const slug = require('mongoose-slug-updater');
-const { create } = require("node:domain");
 mongoose.plugin(slug)
 const productSchema = new mongoose.Schema(
     {

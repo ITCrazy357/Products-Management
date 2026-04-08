@@ -40,7 +40,7 @@ module.exports.loginPost = async (req, res) => {
 
   req.session.user = user; // Giữ lại gán session dự phòng nếu hệ thống bạn vẫn dùng
   res.cookie("token", user.token, {
-    maxAge: 1 * 60 * 1000 // Hết hạn sau 20 phút (20 * 60 giây * 1000 ms)
+    maxAge: 30 * 60 * 1000 // Hết hạn sau 20 phút (20 * 60 giây * 1000 ms)
   });
   res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 };
