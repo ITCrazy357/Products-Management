@@ -1,0 +1,57 @@
+extends ../../layouts/default.pug
+
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main
+  link(rel="stylesheet", href="/css/checkout.css")
+
+  .container.my-5.checkout-page
+    if (cartDetail.products.length > 0)
+      form(action="/checkout/order", method="POST")
+        .col-12
+          +box-head("Thanh toán đơn hàng")
+        .row
+          //- Left Column: Customer Info
+          .col-md-7
+            .card.p-4
+              h4.card-title Thông tin khách hàng
+              .form-group
+                label(for="fullName") Họ và tên
+                input(type="text", class="form-control", id="fullName", name="fullName", required)
+              .form-group
+                label(for="phone") Số điện thoại
+                input(type="text", class="form-control", id="phone", name="phone", required)
+              .form-group
+                label(for="address") Địa chỉ nhận hàng
+                textarea(class="form-control", id="address", name="address", rows="3", required)
+          
+          //- Right Column: Order Summary
+          .col-md-5
+            .card.p-4
+              h4.card-title Đơn hàng của bạn
+              table.table.order-summary-table
+                tbody
+                  each item in cartDetail.products
+                    tr
+                      td
+                        img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="60px")
+                      td
+                        span.font-weight-bold #{item.productInfo.title}
+                        br
+                        small Số lượng: #{item.quantity}
+                      td.text-right.font-weight-bold #{item.totalPrice}$
+              
+              hr
+              
+              .d-flex.justify-content-between.align-items-center.mb-3
+                h5.m-0 Tổng cộng:
+                h4.m-0.text-danger.font-weight-bold #{cartDetail.totalPrice}$
+              
+              button(type="submit", class="btn btn-success btn-lg btn-block") ĐẶT HÀNG
+    else
+      .row
+        .col-12
+          .alert.alert-warning.text-center
+            | Không có sản phẩm nào trong giỏ hàng để thanh toán. 
+            a(href="/") Quay lại trang chủ.

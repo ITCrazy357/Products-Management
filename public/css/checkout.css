@@ -1,0 +1,34 @@
+.checkout-page .card {
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    height: 100%;
+}
+
+.checkout-page h4.card-title {
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.checkout-page .order-summary-table {
+    margin-bottom: 0;
+}
+
+.checkout-page .order-summary-table td {
+    vertical-align: middle;
+    border-top: none;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 1rem 0.5rem;
+}
+
+.checkout-page .order-summary-table tr:last-child td {
+    border-bottom: none;
+}
+
+.checkout-page .order-summary-table img {
+    border-radius: 6px;
+    margin-right: 10px;
+}
