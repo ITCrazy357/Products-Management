@@ -26,5 +26,12 @@ header.header
                             i.fa-solid.fa-cart-shopping
                             if(miniCart)
                                 span.cart-badge #{miniCart.totalQuantity}
+                        a(href="/checkout/history", class="inner-actions__item", title="Đơn hàng của bạn")
+                            i.fa-solid.fa-clipboard-list
+                            if(orderCount > 0)
+                                span.cart-badge #{orderCount}
                         a(href="/user/login", class="inner-actions__item")
                             i.fa-solid.fa-user
+                        
+                  
+                        

@@ -1,0 +1,48 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/moment.pug
+
+block main 
+    link(rel="stylesheet", href="/css/history.css")
+
+    .container.my-5.history-page
+        .row 
+            .col-12 
+                +box-head("Sản phẩm đã thanh toán (Lịch sử đơn hàng)")
+
+        if(orders && orders.length > 0)
+            each order, index in orders
+                .card.mb-4
+                    .card-header.d-flex.justify-content-between.align-items-center
+                        h5.m-0 Đơn hàng #{index + 1}
+                        span.order-time
+                            i.fa-regular.fa-clock
+                            +formatDateTime(order.createdAt)
+                    .card-body.p-0
+                        table(class="table table-hover text-center mb-0")
+                            thead
+                                tr
+                                    th STT
+                                    th Ảnh
+                                    th Tên
+                                    th Giá
+                                    th Số lượng
+                                    th Tổng tiền
+                            tbody
+                                each item, i in order.products
+                                    tr
+                                        td.align-middle #{i + 1}
+                                        td.align-middle
+                                            img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="70px", style="border-radius: 6px; border: 1px solid #f0f0f0; object-fit: cover;")
+                                        td.align-middle.text-left.font-weight-bold #{item.productInfo.title}
+                                        td.align-middle #{item.price}$
+                                        td.align-middle #{item.quantity}
+                                        td.align-middle.font-weight-bold #{item.totalPrice}$
+                    .card-footer.text-right
+                        h5.m-0 Tổng đơn hàng: <span class="text-danger font-weight-bold">#{order.totalPrice}$</span>
+        else 
+            .row
+                .col-12
+                    .alert.alert-warning.text-center
+                        | Bạn chưa có đơn hàng nào. 
+                        a(href="/") Mua sắm ngay.

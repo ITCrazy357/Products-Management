@@ -5,11 +5,9 @@ const orderSchema = new mongoose.Schema(
     cart_id: String,
     // user_id: String,
     userInfo:{
-        fullName: String,
-      email: String,
+      fullName: String,
       phone: String,
       address: String,
-      note: String,
     },
     products: [
       {

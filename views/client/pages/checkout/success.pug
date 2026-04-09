@@ -3,7 +3,69 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
-    .container.my-3 
+    link(rel="stylesheet", href="/css/success.css")
+
+    .container.my-5.success-page 
         .row 
             .col-12 
                 +box-head("Đặt hàng thành công")
+
+        .row
+            .col-12
+                div(class="alert alert-success d-flex align-items-center mb-4")
+                    i.fa-solid.fa-circle-check.mr-2
+                    span Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất.
+
+        if(order)
+            .row
+                .col-md-6.mb-4
+                    .card
+                        .card-header
+                            h4.card-title.m-0 Thông tin cá nhân
+                        .card-body.p-0
+                            table(class="table table-borderless mb-0")
+                                tbody
+                                    tr
+                                        td.text-muted(width="140px") Họ tên:
+                                        td
+                                            b #{order.userInfo.fullName}
+                                    tr
+                                        td.text-muted Số điện thoại:
+                                        td
+                                            b #{order.userInfo.phone}
+                                    tr
+                                        td.text-muted Địa chỉ:
+                                        td
+                                            b #{order.userInfo.address}
+
+            .row
+                .col-12
+                    .card
+                        .card-header
+                            h4.card-title.m-0 Thông tin đơn hàng
+                        .card-body.p-0
+                            table(class="table table-bordered table-hover text-center mb-0")
+                                thead.bg-light
+                                    tr
+                                        th STT
+                                        th Ảnh
+                                        th Tên
+                                        th Giá
+                                        th Số lượng
+                                        th Tổng tiền
+                                tbody
+                                    if(order.products.length > 0)
+                                        each item, index in order.products
+                                            tr
+                                                td.align-middle #{index + 1}
+                                                td.align-middle
+                                                    img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="70px", class="product-img")
+                                                td.align-middle.text-left.font-weight-bold #{item.productInfo.title}
+                                                td.align-middle #{item.price}$
+                                                td.align-middle #{item.quantity}
+                                                td.align-middle.font-weight-bold #{item.totalPrice}$
+
+            if(order.products.length > 0)
+                .row.mt-4
+                    .col-12.text-right
+                        h3 Tổng đơn hàng: <span class="total-price text-danger font-weight-bold">#{order.totalPrice}$</span>

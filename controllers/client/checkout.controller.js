@@ -67,7 +67,7 @@ module.exports.order = async (req, res) => {
 
   const orderInfo = {
     cart_id: cartId,
-    user_info: userInfo,
+    userInfo: userInfo,
     products: products,
   };
 
@@ -88,12 +88,63 @@ module.exports.order = async (req, res) => {
   res.redirect(`/checkout/success/${order.id}`);
 };
 
-
 //[GET] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
-    console.log(req.params.orderId)
+  const order = await Order.findOne({
+    _id: req.params.orderId,
+  });
 
-    res.render("client/pages/checkout/success", {
-        pageTitle: "Thanh toán thành công"
-    })
-}
+
+  for (const product of order.products) {
+    const productInfo = await Product.findOne({
+      _id: product.product_id,
+    }).select("title thumbnail");
+
+    product.productInfo = productInfo;
+
+    product.priceNew = productHelper.priceNewProduct(product);
+
+    product.totalPrice = product.priceNew * product.quantity;
+  }
+
+  order.totalPrice = order.products.reduce(
+    (sum, item) => sum + item.totalPrice,
+    0,
+  );
+
+  res.render("client/pages/checkout/success", {
+    pageTitle: "Thanh toán thành công",
+    order: order,
+  });
+};
+
+//[GET] /checkout/history
+module.exports.history = async (req, res) => {
+  const cartId = req.cookies.cartId;
+
+  const orders = await Order.find({
+    cart_id: cartId,
+  });
+
+  for (const order of orders) {
+    for (const product of order.products) {
+      const productInfo = await Product.findOne({
+        _id: product.product_id,
+      }).select("title thumbnail");
+
+      product.productInfo = productInfo;
+      product.priceNew = productHelper.priceNewProduct(product);
+      product.totalPrice = product.priceNew * product.quantity;
+    }
+
+    order.totalPrice = order.products.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0,
+    );
+  }
+
+  res.render("client/pages/checkout/history", {
+    pageTitle: "Lịch sử đơn hàng",
+    orders: orders,
+  });
+};

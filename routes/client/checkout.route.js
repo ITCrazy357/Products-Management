@@ -9,4 +9,6 @@ router.post("/order", controller.order)
 
 router.get("/success/:orderId", controller.success)
 
+router.get("/history", controller.history)
+
 module.exports = router;
