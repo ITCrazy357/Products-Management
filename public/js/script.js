@@ -17,3 +17,30 @@ if (showAlert.length > 0) {
   });
 }
 //END Show Alert
+
+// Quantity Input Buttons (+/-)
+const buttonsMinus = document.querySelectorAll(".btn-minus");
+const buttonsPlus = document.querySelectorAll(".btn-plus");
+
+if (buttonsMinus.length > 0) {
+    buttonsMinus.forEach(button => {
+        button.addEventListener("click", () => {
+            const input = button.closest(".input-group").querySelector(".input-quantity");
+            let currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        });
+    });
+}
+
+if (buttonsPlus.length > 0) {
+    buttonsPlus.forEach(button => {
+        button.addEventListener("click", () => {
+            const input = button.closest(".input-group").querySelector(".input-quantity");
+            let currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+        });
+    });
+}
+// END Quantity Input Buttons

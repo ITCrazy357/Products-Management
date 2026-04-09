@@ -1,43 +1,30 @@
-include ../mixins/sub-menu.pug
-
-header.header
-    .container
+header.header 
+    .container 
         .row.align-items-center
-            .col-3
-                .inner-logo
+            .col-2 
+                .inner-logo 
                     a(href="/")
-                        img(src="/images/logo.svg", alt="Logo")
-
-            .col-4 
-                form(
-                    action="/search"
-                    method="GET"
-                )
-                    div(class="form-group d-flex mb-0")
-                        input(
-                            type="text"
-                            placeholder ="Tìm kiếm sản phẩm..."
-                            class="form-control"
-                            name="keyword"
-                            value=keyword
-                        )
-                        button(
-                            type="submit" 
-                            class="btn btn-primary"
-                        ) Tìm Kiếm
-                            
-                
-
-            .col-4 
-                .inner-menu
-                    ul
-                        li
-                            a(href="/") Trang Chủ
-                        li(class="sub-menu")
-                            -const pathProduct = "/products"
-                            a(href=pathProduct) Sản Phẩm ▾
-                            +sub-menu(layoutProductCategory, pathProduct)
-                        li 
-                            a(href="/cart") Giỏ Hàng (#{miniCart ? miniCart.totalQuantity : 0})
-                        li 
-                            a(href="/login") Đăng Nhập
+                        //- Thay bằng link ảnh logo của bạn
+                        img(src="/images/logo.png", alt="Logo")
+            .col-10
+                .inner-main
+                    .inner-search
+                        form(action="/search", method="GET")
+                            .input-group
+                                input(
+                                    type="text",
+                                    name="keyword",
+                                    placeholder="Tìm kiếm sản phẩm...",
+                                    class="form-control",
+                                    value=keyword
+                                )
+                                .input-group-append
+                                    button(class="btn btn-primary" type="submit")
+                                        i.fa-solid.fa-search
+                    .inner-actions
+                        a(href="/cart", class="inner-actions__item")
+                            i.fa-solid.fa-cart-shopping
+                            if(miniCart)
+                                span.cart-badge #{miniCart.totalQuantity}
+                        a(href="/user/login", class="inner-actions__item")
+                            i.fa-solid.fa-user

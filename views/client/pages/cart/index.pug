@@ -2,12 +2,8 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/box-head.pug 
 
-
 block main 
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
     link(rel="stylesheet", href="/css/cart.css")
-    +alert-success(5000)
-    +alert-error(5000)
 
     .container.my-3.cart-page 
         .box-head 
@@ -43,7 +39,7 @@ block main
                                                 name="quantity",
                                                 value=item.quantity,
                                                 min="1",
-                                                item-id=item.product_id,
+                                                product-id=item.product_id,
                                                 class="form-control text-center input-quantity px-0"
                                             )
                                             button(class="btn btn-outline-secondary btn-plus" type="button")
@@ -56,7 +52,8 @@ block main
                                             i.fa-solid.fa-trash-can 
                                             |  Xóa
                         else 
-                            p Không có sản phẩm nào trong giỏ hàng
+                            tr 
+                                td(colspan="7") Không có sản phẩm nào trong giỏ hàng.
                 if(cartDetail.products.length > 0)
                     h3.text-right Tổng đơn hàng: <span class="text-danger font-weight-bold">#{cartDetail.totalPrice}$</span>
                     .text-right.mt-3
