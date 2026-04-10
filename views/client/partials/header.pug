@@ -32,5 +32,9 @@ header.header
                             i.fa-solid.fa-clipboard-list
                             if(orderCount > 0)
                                 span.cart-badge #{orderCount}
-                        a(href="/user/register", class="inner-actions__item")
-                            i.fa-solid.fa-user
+                        if(user)
+                            a(href="/user/logout", class="inner-actions__item", title="Đăng xuất")
+                                i.fa-solid.fa-right-from-bracket
+                        else
+                            a(href="/user/login", class="inner-actions__item", title="Đăng nhập")
+                                i.fa-solid.fa-user

@@ -2,6 +2,7 @@ const Cart = require("../../models/cart.model");
 const Product = require("../../models/product.model");
 const productHelper = require("../../helpers/products");
 const Order = require("../../models/order.model");
+const User = require("../../models/user.model");
 
 //[GET] /checkout/
 module.exports.index = async (req, res) => {
@@ -90,32 +91,36 @@ module.exports.order = async (req, res) => {
 
 //[GET] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
-  const order = await Order.findOne({
-    _id: req.params.orderId,
-  });
+  if (req.cookies.tokenUser) {
+    const order = await Order.findOne({
+      _id: req.params.orderId,
+    });
 
+    for (const product of order.products) {
+      const productInfo = await Product.findOne({
+        _id: product.product_id,
+      }).select("title thumbnail");
 
-  for (const product of order.products) {
-    const productInfo = await Product.findOne({
-      _id: product.product_id,
-    }).select("title thumbnail");
+      product.productInfo = productInfo;
 
-    product.productInfo = productInfo;
+      product.priceNew = productHelper.priceNewProduct(product);
 
-    product.priceNew = productHelper.priceNewProduct(product);
+      product.totalPrice = product.priceNew * product.quantity;
+    }
 
-    product.totalPrice = product.priceNew * product.quantity;
+    order.totalPrice = order.products.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0,
+    );
+
+    res.render("client/pages/checkout/success", {
+      pageTitle: "Thanh toán thành công",
+      order: order,
+    });
+  } else {
+    req.flash("error", "Vui lòng đăng nhập để đặt hàng");
+    res.redirect("/user/login");
   }
-
-  order.totalPrice = order.products.reduce(
-    (sum, item) => sum + item.totalPrice,
-    0,
-  );
-
-  res.render("client/pages/checkout/success", {
-    pageTitle: "Thanh toán thành công",
-    order: order,
-  });
 };
 
 //[GET] /checkout/history
