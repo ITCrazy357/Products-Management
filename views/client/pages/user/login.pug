@@ -8,22 +8,12 @@ block main
         .row.justify-content-center
             .col-8
                 .box-user
-                    h1(class="text-center mb-4") Đăng ký tài khoản
+                    h1(class="text-center mb-4") Đăng nhập
 
                     form(
-                        action="/user/register"
+                        action="/user/login"
                         method="POST"
                     )
-                        div(class="form-group")
-                            label(for="fullname") Họ và tên
-                            input(
-                                type="text"
-                                class="form-control"
-                                id="fullname"
-                                name="fullname"
-                                required
-                            )
-
                         div(class="form-group")
                             label(for="email") Email
                             input(
@@ -45,8 +35,8 @@ block main
                             )
 
                         div(class="form-group")
-                            button(type="submit" class="btn btn-primary btn-block") Đăng ký
+                            button(type="submit" class="btn btn-primary btn-block") Đăng nhập
                         
-                    div(class="mt-3 text-center")
-                        span Đã có tài khoản? 
-                        a(href="/user/login") Đăng nhập ngay
+                    div(class="mt-3 d-flex justify-content-between")
+                        a(href="/user/register") Đăng ký tài khoản
+                        a(href="/user/forgot-password") Quên mật khẩu?

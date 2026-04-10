@@ -480,3 +480,82 @@
   }
 }
 /* ===== End Show Alert ===== */
+
+/* ===== BOX USER (Đăng nhập / Đăng ký) ===== */
+.box-user {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.box-user h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.box-user .form-group label {
+  font-weight: 600;
+  color: #555;
+}
+
+.box-user .form-control {
+  border-radius: 6px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
+
+.box-user .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.box-user a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.box-user a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* ===== AUTH TABS (Gộp Đăng nhập/Đăng ký) ===== */
+.auth-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.auth-tab {
+  color: #aaa !important; /* Mờ khi không active */
+  cursor: pointer;
+  padding-bottom: 10px;
+  margin-bottom: -2px !important; /* Đè lên border-bottom */
+  transition: all 0.3s ease;
+}
+
+.auth-tab:hover {
+  color: #777 !important;
+}
+
+.auth-tab.active {
+  color: #333 !important; /* Đậm khi active */
+  border-bottom: 2px solid #007bff;
+}
+
+.auth-form {
+  display: none; /* Ẩn mặc định */
+  animation: fadeIn 0.4s ease;
+}
+
+.auth-form.active {
+  display: block; /* Hiện khi có class active */
+}

@@ -1,0 +1,88 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-error(5000)
+    +alert-success(5000)
+
+    .container.my-5
+        .row.justify-content-center
+            .col-8
+                .box-user.auth-box
+                    //- Tabs Tiêu đề
+                    .auth-tabs
+                        h1(class=`auth-tab ${activeTab === 'login' ? 'active' : ''}` data-target="login") Đăng nhập
+                        h1(class=`auth-tab ${activeTab === 'register' ? 'active' : ''}` data-target="register") Đăng ký
+                    
+                    //- Khung Form Đăng nhập
+                    form(
+                        action="/user/login"
+                        method="POST"
+                        class=`auth-form ${activeTab === 'login' ? 'active' : ''}`
+                        id="form-login"
+                    )
+                        div(class="form-group")
+                            label(for="email") Email
+                            input(
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                required
+                            )
+
+                        div(class="form-group")
+                            label(for="password") Mật khẩu
+                            input(
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                required
+                            )
+
+                        div(class="form-group")
+                            button(type="submit" class="btn btn-primary btn-block") Đăng nhập
+                        
+                        div(class="mt-3 text-right")
+                            a(href="/user/forgot-password") Quên mật khẩu?
+
+                    //- Khung Form Đăng ký
+                    form(
+                        action="/user/register"
+                        method="POST"
+                        class=`auth-form ${activeTab === 'register' ? 'active' : ''}`
+                        id="form-register"
+                    )
+                        div(class="form-group")
+                            label(for="fullname") Họ và tên
+                            input(
+                                type="text"
+                                class="form-control"
+                                id="fullname"
+                                name="fullname"
+                                required
+                            )
+
+                        div(class="form-group")
+                            label(for="email-reg") Email
+                            input(
+                                type="email"
+                                class="form-control"
+                                id="email-reg"
+                                name="email"
+                                required
+                            )
+
+                        div(class="form-group")
+                            label(for="password-reg") Mật khẩu
+                            input(
+                                type="password"
+                                class="form-control"
+                                id="password-reg"
+                                name="password"
+                                required
+                            )
+
+                        div(class="form-group")
+                            button(type="submit" class="btn btn-primary btn-block") Đăng ký
