@@ -3,6 +3,7 @@ const md5 = require("md5");
 const generate = require("../../helpers/generate");
 const ForgotPassword = require("../../models/forgot-password.model");
 const sendMailHelper = require("../../helpers/sendMail");
+const Cart = require("../../models/cart.model");
 
 //[GET] /user/register
 module.exports.register = (req, res) => {
@@ -71,12 +72,32 @@ module.exports.loginPost = async (req, res) => {
 
   res.cookie("tokenUser", user.tokenUser);
   req.flash("success", "Đăng nhập thành công");
+
+  // Tìm giỏ hàng cũ của user đã lưu trong DB
+  const cartUser = await Cart.findOne({
+    user_id: user.id,
+  });
+
+  if (cartUser) {
+    // Nếu đã có giỏ hàng từ trước -> Gắn lại ID giỏ hàng đó vào Cookie
+    res.cookie("cartId", cartUser.id);
+
+    // Xóa giỏ hàng vãng lai rác sinh ra lúc chưa đăng nhập
+    if (req.cookies.cartId && req.cookies.cartId !== cartUser.id) {
+      await Cart.deleteOne({ _id: req.cookies.cartId });
+    }
+  } else {
+    // Nếu chưa có -> Gán giỏ hàng vãng lai hiện tại cho user này
+    await Cart.updateOne({ _id: req.cookies.cartId }, { user_id: user.id });
+  }
+
   res.redirect("/");
 };
 
 //[GET] /user/logout
 module.exports.logout = (req, res) => {
   res.clearCookie("tokenUser");
+  res.clearCookie("cartId");
   req.flash("success", "Đăng xuất thành công");
   res.redirect("/");
 };
