@@ -1,0 +1,58 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-error(5000)
+    +alert-success(5000)
+
+    .container.my-5
+        .row
+            .col-12
+                h1(class="mb-4") Thông tin tài khoản
+        
+        .row
+            //- Cột trái: Avatar và Menu
+            .col-md-4.mb-4
+                .box-user.profile-sidebar.text-center
+                    .profile-avatar.mb-3
+                        i.fa-solid.fa-circle-user
+                    h3.profile-name #{user.fullname}
+                    p.profile-role Khách hàng thành viên
+                    hr
+                    ul.list-unstyled.text-left.profile-menu
+                        li
+                            a(href="/user/info" class="active") 
+                                i.fa-solid.fa-user.mr-2
+                                | Thông tin cá nhân
+                        li
+                            a(href="/checkout/history") 
+                                i.fa-solid.fa-clipboard-list.mr-2
+                                | Lịch sử đơn hàng
+                        li
+                            a(href="/user/password/reset") 
+                                i.fa-solid.fa-key.mr-2
+                                | Đổi mật khẩu
+                        li
+                            a(href="/user/logout" class="text-danger") 
+                                i.fa-solid.fa-right-from-bracket.mr-2
+                                | Đăng xuất
+
+            //- Cột phải: Chi tiết thông tin
+            .col-md-8
+                .box-user.profile-content
+                    h4.mb-4 Chi tiết thông tin
+                    .row.mb-3
+                        .col-sm-4.text-muted Họ và tên
+                        .col-sm-8.font-weight-bold #{user.fullname}
+                    hr
+                    .row.mb-3
+                        .col-sm-4.text-muted Email
+                        .col-sm-8.font-weight-bold #{user.email}
+                    hr
+                    .row.mb-3
+                        .col-sm-4.text-muted Trạng thái
+                        .col-sm-8
+                            if(user.status === "active")
+                                span.badge.badge-success Đang hoạt động
+                            else
+                                span.badge.badge-danger Bị khóa

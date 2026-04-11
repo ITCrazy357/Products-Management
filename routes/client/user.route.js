@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("../../validates/client/user.validate");
+const authMiddleware = require("../../middlewares/client/auth.middleware");
 
 const controller = require("../../controllers/client/user.controller");
 
@@ -29,5 +30,9 @@ router.post(
   validate.resetPasswordPost,
   controller.resetPasswordPost,
 );
+
+router.get("/info", authMiddleware.requireAuth, controller.info);
+
+// router.post("/info", validate.infoPost, controller.infoPost)
 
 module.exports = router;

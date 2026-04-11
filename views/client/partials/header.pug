@@ -33,6 +33,9 @@ header.header
                             if(orderCount > 0)
                                 span.cart-badge #{orderCount}
                         if(user)
+                            a(href="/user/info", class="inner-actions__item", title="Thông tin cá nhân")
+                                i.fa-solid.fa-circle-user
+
                             a(href="/user/logout", class="inner-actions__item", title="Đăng xuất")
                                 i.fa-solid.fa-right-from-bracket
                         else

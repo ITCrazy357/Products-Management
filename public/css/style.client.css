@@ -577,3 +577,57 @@
 .toggle-password:hover {
   color: #333;
 }
+
+/* ===== PROFILE PAGE (Thông tin cá nhân) ===== */
+.profile-sidebar,
+.profile-content {
+  max-width: 100%; /* Ghi đè max-width: 500px của box-user */
+  height: 100%;
+}
+
+.profile-avatar {
+  font-size: 80px;
+  color: #dee2e6;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.profile-role {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.profile-menu {
+  margin-top: 15px;
+}
+
+.profile-menu li {
+  margin-bottom: 5px;
+}
+
+.profile-menu li a {
+  display: block;
+  padding: 10px 15px;
+  color: #495057;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.profile-menu li a:hover,
+.profile-menu li a.active {
+  background-color: #f8f9fa;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.profile-menu li a.text-danger:hover {
+  background-color: #fdecea;
+  color: #dc3545 !important;
+}
