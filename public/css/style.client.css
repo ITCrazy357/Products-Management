@@ -559,3 +559,21 @@
 .auth-form.active {
   display: block; /* Hiện khi có class active */
 }
+
+/* ===== ICON TOGGLE PASSWORD ===== */
+.position-relative {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 38px;
+  right: 15px;
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: #333;
+}

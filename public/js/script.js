@@ -77,3 +77,21 @@ if (authTabs.length > 0) {
     });
   });
 }
+
+// Hiển thị con mắt ẩn/hiện mật khẩu
+const toggles = document.querySelectorAll(".toggle-password");
+
+toggles.forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const inputId = toggle.getAttribute("data-target");
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+      input.type = "text";
+      toggle.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    } else {
+      input.type = "password";
+      toggle.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+  });
+});
