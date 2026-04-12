@@ -75,7 +75,10 @@ app.use((req, res, next) => {
 // =======================
 // 9. App TinyMCE
 // =======================
-app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce")),
+);
 
 // =======================
 // 10. App Local Variables
@@ -87,6 +90,12 @@ app.locals.moment = moment;
 // =======================
 routeClient(app);
 routeAdmin(app);
+app.use((req, res) => {
+  res.render("client/pages/error/404", {
+    pageTitle: "404 Not Found",
+  });
+});
+// =======================
 
 // =======================
 // 12. Start Server
