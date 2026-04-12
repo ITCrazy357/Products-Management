@@ -91,7 +91,7 @@ app.locals.moment = moment;
 routeClient(app);
 routeAdmin(app);
 app.use((req, res) => {
-  res.render("client/pages/error/404", {
+  res.status(404).render("client/pages/errors/404", {
     pageTitle: "404 Not Found",
   });
 });

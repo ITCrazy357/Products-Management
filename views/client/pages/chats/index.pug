@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("Chat")
+            
+            .chat
+                .inner-body
+                    //- Mockup vài tin nhắn mẫu
+                    .inner-incoming
+                        .inner-name Khách hàng
+                        .inner-content
+                            | Xin chào, mình cần tư vấn về sản phẩm này.
+                    .inner-outgoing
+                        .inner-content
+                            | Chào bạn, bạn cần hỗ trợ thông tin gì ạ?
+                    .inner-incoming
+                        .inner-name Khách hàng
+                        .inner-content
+                            | Sản phẩm này còn hàng không shop?
+                .inner-foot
+                    form(
+                        class="inner-form"
+                        action=""
+                    )
+                        input(
+                            type="text"
+                            placeholder="Nhập nội dung..."
+                            name="content"
+                        )
+                        button(type="submit")
+                            i.fa-solid.fa-paper-plane
+                
