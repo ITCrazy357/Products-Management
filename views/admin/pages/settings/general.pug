@@ -1,0 +1,75 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1 Cài đặt chung
+
+    +alert-error(5000)
+    +alert-success(5000)
+
+    form(
+        action=`${prefixAdmin}/settings/general?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        .form-group
+            label(for="websiteName") Tên website
+            input.form-control(
+                type="text"
+                id="websiteName"
+                name="websiteName"
+                value = (settingGeneral ? settingGeneral.websiteName : "")
+            )
+
+        .form-group.upload-image
+            label(for="logo") Logo
+            input.form-control-file(
+                type="file"
+                id="logo"
+                name="logo"
+                accept="image/*"
+                upload-image-input
+            )
+            img.image-preview(
+                src=(settingGeneral ? settingGeneral.logo : "")
+                upload-image-preview
+            )
+
+        .form-group
+            label(for="phone") Số điện thoại
+            input.form-control(
+                type="text"
+                id="phone"
+                name="phone"
+                value = (settingGeneral ? settingGeneral.phone : "")
+            )
+
+        .form-group
+            label(for="email") Email
+            input.form-control(
+                type="email"
+                id="email"
+                name="email"
+                value = (settingGeneral ? settingGeneral.email : "")
+            )
+
+        .form-group
+            label(for="address") Địa chỉ
+            input.form-control(
+                type="text"
+                id="address"
+                name="address"
+                value = (settingGeneral ? settingGeneral.address : "")
+            )
+
+        .form-group
+            label(for="copyright") Copyright
+            input.form-control(
+                type="text"
+                id="copyright"
+                name="copyright"
+                value = (settingGeneral ? settingGeneral.copyright : "")
+            )
+
+        .form-group
+            button.btn.btn-primary(type="submit") Cập nhật

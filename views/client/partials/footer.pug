@@ -1,3 +1,32 @@
 footer.footer 
     .container 
-        p.text-center.m-0 Copyright © 2026. All rights reserved.
+        .row
+            .col-12.col-md-6.mb-4
+                if(settingGeneral.logo)
+                    .inner-logo
+                        a(href="/")
+                            img(src=settingGeneral.logo, alt=settingGeneral.websiteName)
+                if(settingGeneral.websiteName)
+                    h4.inner-title #{settingGeneral.websiteName}
+                p Website cung cấp các sản phẩm chất lượng cao, uy tín và dịch vụ chăm sóc khách hàng tốt nhất.
+                
+            .col-12.col-md-6.mb-4
+                h4.inner-title Thông tin liên hệ
+                ul.inner-list-contact
+                    if(settingGeneral.address)
+                        li
+                            i.fa-solid.fa-location-dot
+                            span #{settingGeneral.address}
+                    if(settingGeneral.phone)
+                        li
+                            i.fa-solid.fa-phone
+                            span #{settingGeneral.phone}
+                    if(settingGeneral.email)
+                        li
+                            i.fa-solid.fa-envelope
+                            span #{settingGeneral.email}
+                            
+        .row
+            .col-12
+                .inner-copyright
+                    p.text-center.m-0 #{settingGeneral.copyright}

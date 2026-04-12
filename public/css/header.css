@@ -1,0 +1,176 @@
+/* ===== HEADER ===== */
+.header {
+  background: #fff;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header .inner-logo img {
+  max-height: 50px;
+  max-width: 100%;
+}
+
+.header .inner-main {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.header .inner-search {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.header .inner-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.header .inner-actions__item {
+  font-size: 22px;
+  color: #333;
+  text-decoration: none;
+  position: relative;
+}
+
+.header .inner-actions__item .cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #d70018;
+  color: #fff;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid #fff;
+}
+
+/* ===== MENU CHA ===== */
+.header .inner-menu > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.header .inner-menu > ul > li {
+  margin-left: 20px;
+  position: relative;
+  padding: 15px; /* Tăng padding-bottom để tạo khoảng cách cho submenu */
+}
+
+/* Tạo vùng đệm tránh mất hover */
+.header .inner-menu > ul > li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 10px;
+  height: 10px;
+}
+
+/* Link menu */
+.header .inner-menu > ul > li > a {
+  font-size: 16px;
+  color: #007bff;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.header .inner-menu > ul > li > a:hover {
+  color: #0056b3;
+}
+
+/* ===== SUBMENU CẤP 1 ===== */
+.header .inner-menu ul li ul {
+  list-style: none;
+  padding: 0;
+  position: absolute;
+  top: calc(100% - 15px);
+  left: 0;
+  background: #ffffff;
+  min-width: 220px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  display: none; /* dùng display để tránh bug */
+  z-index: 999;
+}
+
+/* Hover hiện submenu cấp 1 */
+.header .inner-menu ul li:hover > ul {
+  display: block;
+}
+
+/* ===== SUBMENU CẤP 2, 3 (ACCORDION XỔ XUỐNG) ===== */
+.header .inner-menu ul li ul li {
+  position: relative;
+}
+
+/* submenu cấp sâu */
+.header .inner-menu ul li ul li ul {
+  position: static; /* giữ dạng xổ xuống */
+  display: none;
+  padding-left: 15px;
+  background: #fdfdfd;
+}
+
+/* Hover hiện submenu cấp sâu */
+.header .inner-menu ul li ul li:hover > ul {
+  display: block;
+}
+
+/* ===== STYLE ITEM ===== */
+.header .inner-menu ul li ul li a {
+  display: block;
+  padding: 12px 15px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid #f1f1f1;
+  transition: all 0.2s ease;
+  text-transform: none;
+}
+
+.header .inner-menu ul li ul li:last-child a {
+  border-bottom: none;
+}
+
+.header .inner-menu ul li ul li a:hover {
+  background: #f8f9fa;
+  color: #007bff;
+  padding-left: 20px;
+}
+
+/* ===== HIỆU ỨNG NẢY KHI THÊM VÀO GIỎ HÀNG ===== */
+@keyframes bounceCart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-bounce {
+  animation: bounceCart 0.3s ease;
+}
