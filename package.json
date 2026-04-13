@@ -35,6 +35,7 @@
     "nodemailer": "^8.0.5",
     "parser": "^0.1.4",
     "pug": "^3.0.3",
+    "socket.io": "^4.8.3",
     "streamifier": "^0.1.1",
     "tinymce": "^8.3.2"
   }

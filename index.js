@@ -14,6 +14,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const moment = require("moment");
+const http = require("http");
+const { Server } = require("socket.io");
 
 // =======================
 // 3. Import Local Files
@@ -33,6 +35,13 @@ database.connect();
 // =======================
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Socket.IO setup
+const server = http.createServer(app);
+const io = new Server(server);
+io.on("connection", (socket) => {
+  console.log("A user connected", socket.id);
+});
 
 // =======================
 // 6. Middleware
@@ -100,6 +109,6 @@ app.use((req, res) => {
 // =======================
 // 12. Start Server
 // =======================
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`🚀🚀🚀 Server đang chạy tại cổng ${port}`);
 });
