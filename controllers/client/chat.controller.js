@@ -1,9 +1,33 @@
+const Chat = require("../../models/chat.model");
+const User = require("../../models/user.model");
+
 //[GET] /chat/
 module.exports.index = async (req, res) => {
-  _io.on("connection", (socket) => {
-    console.log("A user connected", socket.id);
+  const userId = res.locals.userInfo.id;
+  _io.once("connection", (socket) => {
+    socket.on("CLIENT_SEND_MESSAGE", async (content) => {
+      //lưu vào db
+      const chat = new Chat({
+        user_id: userId,
+        content: content,
+      });
+      await chat.save();
+    });
   });
+
+  //Lấy data từ db
+  const chats = await Chat.find({
+    deleted: false,
+  }).limit(10);
+  for (const chat of chats) {
+    const infoUser = await User.findOne({
+      _id: chat.user_id,
+    }).select("fullname");
+    chat.infoUser = infoUser;
+  }
+
   res.render("client/pages/chats/index", {
     pageTitle: "Chat",
+    chats: chats,
   });
 };
