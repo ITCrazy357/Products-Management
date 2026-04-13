@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const moment = require("moment");
+//socket
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -39,9 +40,9 @@ const port = process.env.PORT || 3000;
 // Socket.IO setup
 const server = http.createServer(app);
 const io = new Server(server);
-io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
-});
+global._io = io;
+
+//End socket.io
 
 // =======================
 // 6. Middleware
