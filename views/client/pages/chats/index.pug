@@ -7,7 +7,7 @@ block main
             .col-12 
                 +box-head("Chat")
             
-            .chat
+            .chat(my-id=userInfo.id)
                 .inner-body
                     each chat in chats
                         div(class=(chat.user_id == userInfo.id ? "inner-outgoing" : "inner-incoming"))
@@ -15,13 +15,7 @@ block main
                                 .inner-name #{chat.infoUser.fullname}
                             .inner-content
                                 | #{chat.content}
-                        //- .inner-outgoing
-                        //-     .inner-content
-                        //-         | Chào bạn, bạn cần hỗ trợ thông tin gì ạ?
-                        //- .inner-incoming
-                        //-     .inner-name Khách hàng
-                        //-     .inner-content
-                        //-         | Sản phẩm này còn hàng không shop?
+
                 .inner-foot
                     form(
                         class="inner-form"
