@@ -831,6 +831,22 @@
   border-color: #007bff;
 }
 
+.chat .inner-form .button-icon {
+  font-size: 26px;
+  color: #6c757d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.chat .inner-form .button-icon:hover {
+  color: #007bff;
+  transform: scale(1.1);
+}
+
 .chat .inner-form button {
   background: #007bff;
   color: #fff;
@@ -875,4 +891,17 @@
   transform: scale(1.1);
   box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
   color: #fff;
+}
+
+/* ===== EMOJI PICKER TOOLTIP ===== */
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
 }
