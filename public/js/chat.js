@@ -65,15 +65,30 @@ if (buttonIcon) {
 }
 //END Show popup
 
+const inputChat = document.querySelector(
+  ".chat .inner-form input[name='content']",
+);
+
 const emojiPicker = document.querySelector("emoji-picker");
-if (emojiPicker) {
-  const inputChat = document.querySelector(
-    ".chat .inner-form input[name='content']",
-  );
+if (emojiPicker && inputChat) {
   emojiPicker.addEventListener("emoji-click", (event) => {
     const icon = event.detail.unicode; // Lấy ký tự emoji
     inputChat.value = inputChat.value + icon; // Thêm vào sau nội dung cũ trong input
   });
 }
 
+//input keyup
+if (inputChat) {
+  inputChat.addEventListener("keyup", () => {
+    socket.emit("CLIENT_SEND_TYPING", "show");
+  });
+}
+// END input keyup
+
 //end show icon chat
+
+//SERVER_RETURN_TYPING
+socket.on("SERVER_RETURN_TYPING", (data) => {
+  console.log(data);
+});
+//END SERVER_RETURN_TYPING

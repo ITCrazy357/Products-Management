@@ -23,6 +23,16 @@ module.exports.index = async (req, res) => {
         content: content,
       });
     });
+
+    //typing
+    socket.on("CLIENT_SEND_TYPING", async (type) => {
+      socket.broadcast.emit("SERVER_RETURN_TYPING", {
+        user_id: userId,
+        fullname: fullName,
+        type: type,
+      });
+    });
+    //END typing
   });
 
   //Lấy data từ db
