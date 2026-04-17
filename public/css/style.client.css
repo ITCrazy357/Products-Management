@@ -941,64 +941,107 @@
 }
 
 /* ===== FILEPOND CHAT ICON ===== */
-.chat .inner-form .filepond--root {
-  margin-bottom: 0;
-  flex-shrink: 0;
-  width: 45px;
-  transition: width 0.3s ease;
+/* ===== FILEPOND CHAT STYLE ===== */
+
+/* Ẩn credit */
+.filepond--credits {
+  display: none !important;
 }
 
-/* Mở rộng khung khi có ảnh */
-.chat .inner-form .filepond--root:has(.filepond--item) {
-  width: 150px;
+/* ===== FORM CHAT ===== */
+.chat .inner-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.chat .inner-form .filepond--panel-root {
+/* ===== WRAPPER CHỨA FILEPOND ===== */
+.chat .filepond-wrapper {
+  padding: 0;
+}
+
+/* ===== FILEPOND ROOT ===== */
+.chat .filepond--root {
+  width: 100%;
+  margin: 0;
+  font-family: inherit;
+  height: auto !important;
+}
+
+/* ===== PANEL ===== */
+.chat .filepond--panel-root {
   background-color: transparent !important;
   border: none !important;
+  box-shadow: none !important;
 }
 
-.chat .inner-form .filepond--drop-label {
-  min-height: 45px;
-  height: 45px;
-  cursor: pointer;
+/* ===== LABEL (ICON CHỌN ẢNH) ===== */
+/* Ẩn label drop mặc định của filepond để dùng custom icon */
+.chat .filepond--drop-label {
+  display: none !important;
 }
 
-.chat .inner-form .filepond--drop-label label {
-  font-size: 0; /* Ẩn chữ Drag & Drop mặc định */
-  cursor: pointer;
+/* ===== LIST PREVIEW ===== */
+.chat .filepond--list-scroller {
+  position: relative !important;
+  transform: none !important;
 }
 
-/* Thêm icon hình ảnh (fa-image) */
-.chat .inner-form .filepond--drop-label label::before {
-  content: "\f03e";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 400; /* fa-regular */
-  font-size: 26px;
-  color: #6c757d;
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.chat .inner-form .filepond--drop-label label:hover::before {
-  color: #007bff;
-  transform: scale(1.1);
-}
-
-/* Thu nhỏ icon khi đã có ảnh preview */
-.chat .inner-form .filepond--root:has(.filepond--item) .filepond--drop-label {
-  min-height: 20px;
-  height: 20px;
+.chat .filepond--list {
+  display: flex;
+  flex-wrap: nowrap; /* 🔥 scroll ngang */
+  gap: 10px;
   margin-top: 10px;
+  overflow-x: auto;
+  padding-bottom: 5px;
 }
 
-.chat
-  .inner-form
-  .filepond--root:has(.filepond--item)
-  .filepond--drop-label
-  label::before {
-  font-size: 16px;
+/* scrollbar đẹp */
+.chat .filepond--list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.chat .filepond--list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* ===== ITEM (ẢNH) ===== */
+.chat .filepond--item {
+  width: 70px !important;
+  height: 70px !important;
+  margin: 0 !important;
+  position: relative !important;
+  transform: none !important;
+}
+
+/* Ảnh bên trong */
+.chat .filepond--image-preview {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ===== NÚT XÓA (X) ===== */
+.chat .filepond--action-remove-item {
+  background-color: rgba(0, 123, 255, 0.9);
+  width: 24px;
+  height: 24px;
+  top: -8px;
+  right: -8px;
+}
+
+.chat .filepond--action-remove-item:hover {
+  background-color: #0056b3;
+}
+
+/* ===== ẨN PROGRESS (nếu không cần) ===== */
+.chat .filepond--progress-indicator {
+  display: none;
+}
+
+/* ===== KHI CHƯA CÓ ẢNH ===== */
+.chat .filepond--list:empty {
+  display: none;
 }
 
 /* ===== FLOATING CHAT BUBBLE ===== */

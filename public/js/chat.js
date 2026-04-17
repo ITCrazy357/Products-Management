@@ -9,6 +9,14 @@ const upload = FilePond.create(inputElement, {
   allowMultiple: true,
   maxFiles: 10,
 });
+
+// Mở popup chọn file khi click vào icon ảnh custom
+const customIconImage = document.querySelector(".button-icon-image");
+if (customIconImage) {
+  customIconImage.addEventListener("click", () => {
+    upload.browse();
+  });
+}
 //CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");
 if (formSendData) {
