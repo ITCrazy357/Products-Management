@@ -803,6 +803,21 @@
   border-bottom-right-radius: 4px;
 }
 
+/* ===== CHAT IMAGES ===== */
+.chat .inner-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.chat .inner-images img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 /* ===== TYPING INDICATOR ===== */
 .chat .inner-list-typing .box-typing {
   display: flex;
@@ -923,6 +938,67 @@
 
 .chat .inner-form button:hover {
   background: #0056b3;
+}
+
+/* ===== FILEPOND CHAT ICON ===== */
+.chat .inner-form .filepond--root {
+  margin-bottom: 0;
+  flex-shrink: 0;
+  width: 45px;
+  transition: width 0.3s ease;
+}
+
+/* Mở rộng khung khi có ảnh */
+.chat .inner-form .filepond--root:has(.filepond--item) {
+  width: 150px;
+}
+
+.chat .inner-form .filepond--panel-root {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.chat .inner-form .filepond--drop-label {
+  min-height: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.chat .inner-form .filepond--drop-label label {
+  font-size: 0; /* Ẩn chữ Drag & Drop mặc định */
+  cursor: pointer;
+}
+
+/* Thêm icon hình ảnh (fa-image) */
+.chat .inner-form .filepond--drop-label label::before {
+  content: "\f03e";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400; /* fa-regular */
+  font-size: 26px;
+  color: #6c757d;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.chat .inner-form .filepond--drop-label label:hover::before {
+  color: #007bff;
+  transform: scale(1.1);
+}
+
+/* Thu nhỏ icon khi đã có ảnh preview */
+.chat .inner-form .filepond--root:has(.filepond--item) .filepond--drop-label {
+  min-height: 20px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.chat
+  .inner-form
+  .filepond--root:has(.filepond--item)
+  .filepond--drop-label
+  label::before {
+  font-size: 16px;
 }
 
 /* ===== FLOATING CHAT BUBBLE ===== */

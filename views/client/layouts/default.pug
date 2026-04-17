@@ -8,6 +8,9 @@ html(lang="vi")
         //- Bootstrap & FontAwesome
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
+        //-  upload nhiều ảnh
+        link(rel="stylesheet", href="https://unpkg.com/filepond/dist/filepond.min.css")
+        link(rel="stylesheet", href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css")
 
         //- CSS tùy chỉnh
         link(rel="stylesheet", href="/css/style.client.css")
@@ -27,10 +30,14 @@ html(lang="vi")
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js")
         script(src="/js/script.js")
 
-    //socket.io client
+    //-socket.io client
     script(src="/socket.io/socket.io.js")
     script(src="/js/socket.js")
     script(type="module", src="/js/chat.js") 
 
-    //emoji-picker-element
+    //- Emoji-picker-element
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+
+    //- Upload nhiều ảnh
+    script(src="https://unpkg.com/filepond/dist/filepond.min.js")
+    script(src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js")

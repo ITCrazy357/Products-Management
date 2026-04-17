@@ -8,13 +8,20 @@ block main
                 +box-head("Chat")
             
             .chat(my-id=userInfo.id)
+                .image-preview-container
+                
                 .inner-body
                     each chat in chats
                         div(class=(chat.user_id == userInfo.id ? "inner-outgoing" : "inner-incoming"))
                             if(chat.user_id != userInfo.id)
                                 .inner-name #{chat.infoUser.fullname}
-                            .inner-content
-                                | #{chat.content}
+                            if(chat.content)
+                                .inner-content
+                                    | #{chat.content}
+                            if(chat.images && chat.images.length > 0)
+                                .inner-images 
+                                    each image in chat.images
+                                        img(src=image)
 
                     div(class="inner-list-typing")
 
@@ -28,7 +35,12 @@ block main
                             placeholder="Nhập nội dung..."
                             name="content"
                         )
-                        span(class="button-icon")
+                        input.filepond(
+                            type="file"
+                            name="images"
+                            multiple
+                            )
+                        span(class="button-icon button-icon-smile")
                             i.fa-regular.fa-face-smile
                         button(type="submit")
                             i.fa-solid.fa-paper-plane
@@ -36,5 +48,4 @@ block main
 
         div(class="tooltip" role="tooltip")
             emoji-picker
-
                 
