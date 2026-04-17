@@ -81,6 +81,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 
   // Tự động cuộn xuống đáy khi có tin nhắn mới
   body.scrollTop = body.scrollHeight;
+  //Preview Images
+  const gallery = new Viewer(div);
 });
 
 //END SERVER_RETURN_MESSAGE
@@ -192,5 +194,11 @@ if (elementListTyping) {
     }
   });
 }
-
 //END SERVER_RETURN_TYPING
+
+//PREVIEW FULL IMAGE
+const bodyChatPreviewImage = document.querySelector(".chat .inner-body");
+if (bodyChatPreviewImage) {
+  const gallery = new Viewer(bodyChatPreviewImage);
+}
+//END PREVIEW FULL IMAGE
