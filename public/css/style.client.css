@@ -1083,3 +1083,119 @@
   visibility: visible;
   opacity: 1;
 }
+
+/* 3 CHẤM XÓA BÊN CẠNH CONTENT*/
+.chat .inner-box,
+.chat .image-item {
+  position: relative;
+  width: fit-content;
+}
+
+.chat .inner-action {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.chat .inner-box:hover .inner-action,
+.chat .image-item:hover .inner-action {
+  opacity: 1;
+}
+
+.chat .inner-outgoing .inner-action {
+  left: -30px;
+}
+
+.chat .inner-incoming .inner-action {
+  right: -30px;
+}
+
+.chat .image-item .inner-action {
+  top: 5px;
+  right: 5px;
+  left: auto;
+  transform: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 50%;
+}
+
+.chat .inner-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  font-size: 13px;
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.chat .inner-menu:hover {
+  background: #fdecea;
+}
+
+.chat .inner-outgoing .inner-menu {
+  right: 0;
+}
+
+.chat .inner-incoming .inner-menu {
+  left: 0;
+}
+
+.chat .inner-action:hover .inner-menu {
+  display: block;
+}
+
+/* ===== BOX USER FRIEND (DANH SÁCH BẠN BÈ) ===== */
+.box-user-friend {
+  max-width: 100%;
+  margin: 0;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.box-user-friend .inner-avatar {
+  margin-right: 15px;
+}
+
+.box-user-friend .inner-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.box-user-friend .inner-info .inner-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.box-user [btn-cancel-friend] {
+  display: none;
+}
+
+.box-user.add [btn-add-friend] {
+  display: none;
+}
+
+.box-user.add[btn-cancel-friend] {
+  display: inline-block;
+}

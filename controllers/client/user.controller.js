@@ -221,4 +221,15 @@ module.exports.info = async (req, res) => {
   });
 };
 
+//[PATCH] /user/info
+module.exports.infoPatch = async (req, res) => {
+  try {
+    await User.updateOne({ _id: res.locals.user.id }, req.body);
+    req.flash("success", "Cập nhật thông tin thành công");
+  } catch (error) {
+    req.flash("error", "Cập nhật thông tin thất bại");
+  }
+  res.redirect("/user/info");
+};
+
 //[POST] /user/info

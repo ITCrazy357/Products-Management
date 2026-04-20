@@ -57,15 +57,46 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     div.classList.add("inner-incoming");
   }
 
+  div.setAttribute("message-id", data._id);
+
   if (data.content) {
-    htmlContent = `<div class="inner-content">${data.content}</div>`;
+    htmlContent = `
+      <div class="inner-box">
+        <div class="inner-content">${data.content}</div>
+        ${
+          myId === data.user_id
+            ? `
+        <div class="inner-action">
+          <i class="fa-solid fa-ellipsis"></i>
+          <div class="inner-menu">
+            <div data-id="${data._id}" class="delete-message">Xóa</div>
+          </div>
+        </div>`
+            : ""
+        }
+      </div>
+    `;
   }
 
   if (data.images.length > 0) {
     htmlImages += `<div class="inner-images">`;
 
     for (const image of data.images) {
-      htmlImages += `<img src="${image}">`;
+      htmlImages += `
+      <div class="image-item">
+        <img src="${image}">
+        ${
+          myId === data.user_id
+            ? `
+        <div class="inner-action">
+          <i class="fa-solid fa-ellipsis"></i>
+          <div class="inner-menu">
+            <div data-id="${data._id}" data-image="${image}" class="delete-image">Xóa ảnh</div>
+          </div>
+        </div>`
+            : ""
+        }
+      </div>`;
     }
 
     htmlImages += `</div>`;
@@ -84,7 +115,6 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
   //Preview Images
   const gallery = new Viewer(div);
 });
-
 //END SERVER_RETURN_MESSAGE
 
 //Sroll chat to buttom
@@ -202,3 +232,49 @@ if (bodyChatPreviewImage) {
   const gallery = new Viewer(bodyChatPreviewImage);
 }
 //END PREVIEW FULL IMAGE
+
+// LẮNG NGHE SỰ KIỆN CLICK NÚT XÓA (GỬI YÊU CẦU LÊN SERVER)
+const bodyChatElement = document.querySelector(".chat .inner-body");
+if (bodyChatElement) {
+  bodyChatElement.addEventListener("click", (e) => {
+    // Xóa tin nhắn (toàn bộ)
+    const btnDeleteContent = e.target.closest(".delete-message");
+    if (btnDeleteContent) {
+      const messageId = btnDeleteContent.getAttribute("data-id");
+      socket.emit("CLIENT_SEND_DELETE_MESSAGE", messageId);
+    }
+
+    const btnDeleteImage = e.target.closest(".delete-image");
+    if (btnDeleteImage) {
+      const messageId = btnDeleteImage.getAttribute("data-id");
+      const image = btnDeleteImage.getAttribute("data-image");
+      socket.emit("CLIENT_SEND_DELETE_MESSAGE", {
+        _id: messageId,
+        image: image,
+      });
+    }
+  });
+}
+
+// NHẬN YÊU CẦU XÓA TIN NHẮN TỪ SERVER (CẬP NHẬT UI REALTIME)
+socket.on("SERVER_RETURN_DELETE_MESSAGE", (messageId) => {
+  const divMessage = document.querySelector(`[message-id='${messageId}']`);
+  if (divMessage) {
+    divMessage.remove();
+  }
+});
+
+// NHẬN YÊU CẦU XÓA ẢNH TỪ SERVER (CẬP NHẬT UI REALTIME)
+socket.on("SERVER_RETURN_DELETE_IMAGE", (data) => {
+  const divMessage = document.querySelector(`[message-id='${data._id}']`);
+  if (divMessage) {
+    // Tìm thẻ chứa ảnh tương ứng và gỡ đi
+    const imgItem = divMessage.querySelectorAll(".image-item");
+    imgItem.forEach((item) => {
+      const img = item.querySelector(`img[src='${data.image}']`);
+      if (img) {
+        item.remove();
+      }
+    });
+  }
+});
