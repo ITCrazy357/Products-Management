@@ -224,6 +224,29 @@ module.exports.info = async (req, res) => {
 //[PATCH] /user/info
 module.exports.infoPatch = async (req, res) => {
   try {
+    const uploadAvatarInput = document.querySelector(".input-upload-avatar");
+    if (uploadAvatarInput) {
+      uploadAvatarInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const imagePreview = document.querySelector(".image-preview");
+          const iconDefault = document.querySelector(".icon-default");
+          const formUploadAvatar = document.querySelector(
+            "#form-upload-avatar",
+          );
+
+          imagePreview.src = URL.createObjectURL(file);
+          imagePreview.classList.remove("d-none");
+
+          if (iconDefault) {
+            iconDefault.classList.add("d-none");
+          }
+          if (formUploadAvatar) {
+            formUploadAvatar.submit();
+          }
+        }
+      });
+    }
     await User.updateOne({ _id: res.locals.user.id }, req.body);
     req.flash("success", "Cập nhật thông tin thành công");
   } catch (error) {
