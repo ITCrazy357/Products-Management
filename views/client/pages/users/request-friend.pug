@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        include ../../partials/list-btn-users.pug
+
+        .row 
+            .col-12 
+                +box-head("Yêu cầu kết bạn")
+
+        
+        .row
+            each user in users
+                .col-6 
+                    div(class="box-user box-user-friend add")
+                        div(class="inner-avatar")
+                            img(
+                                    src=(user.avatar ? user.avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+                                    alt=user.fullname
+                                    class="rounded-circle"
+                                    width="80"
+                                    height="80"
+                            )
+
+                        div(class="inner-info")
+                            div(class="inner-name") #{user.fullname}
+                            div(class="inner-buttons")
+                                button(
+                                    class="btn btn-sm btn-primary m-1"
+                                    btn-add-friend = user.id
+                                ) Kết bạn 
+                                button(
+                                    class="btn btn-sm btn-secondary m-1"
+                                    btn-cancel-friend = user.id
+                                ) Hủy
