@@ -1119,16 +1119,6 @@
   right: -30px;
 }
 
-.chat .image-item .inner-action {
-  top: 5px;
-  right: 5px;
-  left: auto;
-  transform: none;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border-radius: 50%;
-}
-
 .chat .inner-menu {
   display: none;
   position: absolute;
@@ -1196,6 +1186,6 @@
   display: none;
 }
 
-.box-user.add[btn-cancel-friend] {
+.box-user.add [btn-cancel-friend] {
   display: inline-block;
 }

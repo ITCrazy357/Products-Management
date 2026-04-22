@@ -63,12 +63,12 @@ module.exports = (res) => {
         _id: data._id,
       });
       if (chat && chat.user_id == userId) {
-        await Chat.deleteOne(
+        await Chat.updateOne(
           {
             _id: data._id,
           },
           {
-            $pull: { image: data.image },
+            $pull: { images: data.image },
           },
         );
         _io.emit("SERVER_RETURN_DELETE_IMAGE", {
@@ -80,7 +80,11 @@ module.exports = (res) => {
         const updateChat = await Chat.findOne({
           _id: data._id,
         });
-        if (!updateChat.content && updateChat.images.length === 0) {
+        if (
+          updateChat &&
+          !updateChat.content &&
+          updateChat.images.length === 0
+        ) {
           await Chat.deleteOne({
             _id: data._id,
           });

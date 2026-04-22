@@ -248,7 +248,7 @@ if (bodyChatElement) {
     if (btnDeleteImage) {
       const messageId = btnDeleteImage.getAttribute("data-id");
       const image = btnDeleteImage.getAttribute("data-image");
-      socket.emit("CLIENT_SEND_DELETE_MESSAGE", {
+      socket.emit("CLIENT_SEND_DELETE_IMAGE", {
         _id: messageId,
         image: image,
       });
