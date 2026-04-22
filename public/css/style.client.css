@@ -1189,3 +1189,28 @@
 .box-user.add [btn-cancel-friend] {
   display: inline-block;
 }
+
+/* ===== TRẠNG THÁI LỜI MỜI KẾT BẠN ===== */
+/* Ẩn nút Đã xóa và Đã chấp nhận ở trạng thái mặc định */
+.box-user-friend [btn-delete-friend],
+.box-user-friend [btn-accepted-friend] {
+  display: none;
+}
+
+/* Khi box được thêm class 'refuse' (Từ chối/Xóa) */
+.box-user-friend.refuse [btn-accept-friend],
+.box-user-friend.refuse [btn-refuse-friend] {
+  display: none;
+}
+.box-user-friend.refuse [btn-delete-friend] {
+  display: inline-block;
+}
+
+/* Khi box được thêm class 'accepted' (Đã chấp nhận) */
+.box-user-friend.accepted [btn-accept-friend],
+.box-user-friend.accepted [btn-refuse-friend] {
+  display: none;
+}
+.box-user-friend.accepted [btn-accepted-friend] {
+  display: inline-block;
+}
