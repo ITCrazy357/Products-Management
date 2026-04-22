@@ -113,5 +113,46 @@ module.exports = (res) => {
       }
     });
     //END Lời mời kết bạn - Chức năng xóa
+
+    //================================================================//
+
+    //Lời mời kết bạn - Chức năng chấp nhận
+    socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
+      const myUserId = res.locals.user.id;
+      // Xóa A khỏi accept của B và thêm vào friendList
+      const existIdAinB = await User.findOne({
+        _id: myUserId,
+        acceptFriends: userId,
+      });
+      if (existIdAinB) {
+        await User.updateOne(
+          {
+            _id: myUserId,
+          },
+          {
+            $pull: { acceptFriends: userId },
+            $push: { friendList: { user_id: userId, room_chat_id: "" } },
+          },
+        );
+      }
+      // Xóa id của B trong requestFriends của A và thêm B vào listFriend
+      const existIdBinA = await User.findOne({
+        _id: userId,
+        requestFriends: myUserId,
+      });
+      if (existIdBinA) {
+        await User.updateOne(
+          {
+            _id: userId,
+          },
+          {
+            $pull: { requestFriends: myUserId },
+            $push: { friendList: { user_id: myUserId, room_chat_id: "" } },
+          },
+        );
+      }
+    });
+
+    //END Lời mời kết bạn - Chức năng chấp nhận
   });
 };

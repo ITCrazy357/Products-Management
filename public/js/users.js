@@ -41,3 +41,17 @@ if (listBtnRefuseFriend.length > 0) {
   });
 }
 //END Lời mời kết bạn - Chức năng xóa
+
+//Lời mời kết bạn - Chức năng chấp nhận
+const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]");
+if (listBtnAcceptFriend.length > 0) {
+  listBtnAcceptFriend.forEach((button) => {
+    button.addEventListener("click", () => {
+      button.closest(".box-user").classList.add("accepted");
+
+      const userId = button.getAttribute("btn-accept-friend");
+      socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+    });
+  });
+}
+//END Lời mời kết bạn - Chức năng chấp nhận
