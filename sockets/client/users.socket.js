@@ -101,6 +101,11 @@ module.exports = (res) => {
         lengthAcceptFriends: lengthAcceptFriends,
         userId: userId,
       });
+      //Lấy info của A và trả về cho B
+      socket.broadcast.emit("SERVER_RETURN_INFO_CANCEL_FRIEND", {
+        userIdB: userId,
+        userIdA: myUserId,
+      });
     });
     //END Chức năng hủy yêu cầu kết bạn
 
