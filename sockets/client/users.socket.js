@@ -45,6 +45,15 @@ module.exports = (res) => {
         lengthAcceptFriends: lengthAcceptFriends,
         userId: userId,
       });
+
+      //Lấy info của A và trả về cho B
+      const infoUserA = await User.findOne({
+        _id: myUserId,
+      }).select("id fullname avatar");
+      socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIEND", {
+        userId: userId,
+        infoUserA: infoUserA,
+      });
     });
     //END Chức năng gửi yêu cầu kết bạn
 
@@ -83,6 +92,15 @@ module.exports = (res) => {
           },
         );
       }
+      //Lấy ra độ dài acceptFriends của B và trả về cho B
+      const infoUserB = await User.findOne({
+        _id: userId,
+      });
+      const lengthAcceptFriends = infoUserB.acceptFriends.length;
+      socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+        lengthAcceptFriends: lengthAcceptFriends,
+        userId: userId,
+      });
     });
     //END Chức năng hủy yêu cầu kết bạn
 

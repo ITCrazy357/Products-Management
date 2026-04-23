@@ -28,30 +28,36 @@ if (listBtnCancelFriend.length > 0) {
 }
 //END Chức năng hủy yêu cầu kết bạn
 
-//Lời mời kết bạn - Chức năng xóa
+//Lời mời kết bạn - Chức năng xóa lời mời kết bạn
+const refuseFriend = (button) => {
+  button.addEventListener("click", () => {
+    button.closest(".box-user").classList.add("refuse");
+
+    const userId = button.getAttribute("btn-refuse-friend");
+    socket.emit("CLIENT_REFUSE_FRIEND", userId);
+  });
+};
 const listBtnRefuseFriend = document.querySelectorAll("[btn-refuse-friend]");
 if (listBtnRefuseFriend.length > 0) {
   listBtnRefuseFriend.forEach((button) => {
-    button.addEventListener("click", () => {
-      button.closest(".box-user").classList.add("refuse");
-
-      const userId = button.getAttribute("btn-refuse-friend");
-      socket.emit("CLIENT_REFUSE_FRIEND", userId);
-    });
+    refuseFriend(button);
   });
 }
-//END Lời mời kết bạn - Chức năng xóa
+//END Lời mời kết bạn - Chức năng xóa lời mời kết bạn
 
 //Lời mời kết bạn - Chức năng chấp nhận
+const acceptFriend = (button) => {
+  button.addEventListener("click", () => {
+    button.closest(".box-user").classList.add("accepted");
+
+    const userId = button.getAttribute("btn-accept-friend");
+    socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+  });
+};
 const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]");
 if (listBtnAcceptFriend.length > 0) {
   listBtnAcceptFriend.forEach((button) => {
-    button.addEventListener("click", () => {
-      button.closest(".box-user").classList.add("accepted");
-
-      const userId = button.getAttribute("btn-accept-friend");
-      socket.emit("CLIENT_ACCEPT_FRIEND", userId);
-    });
+    acceptFriend(button);
   });
 }
 //END Lời mời kết bạn - Chức năng chấp nhận
@@ -66,5 +72,78 @@ if (badgeUserAccept) {
     }
   });
 }
-
 // END SERVER_RETURN_LENGTH_ACCEPT_FRIEND
+
+//SERVER_RETURN_INFO_ACCEPT_FRIEND
+const dataUserAccept = document.querySelector("[data-users-accept]");
+if (dataUserAccept) {
+  const userId = dataUserAccept.getAttribute("data-users-accept");
+  socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
+    //Vẽ giao diện
+    if (userId === data.userId) {
+      const div = document.createElement("div");
+      div.classList.add("col-6");
+
+      div.innerHTML = `
+        <div class="box-user box-user-friend">
+          <div class="inner-avatar">
+            <img
+              src="${data.infoUserA.avatar ? data.infoUserA.avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}"
+              alt="${data.infoUserA.fullname}"
+              class="rounded-circle"
+              width="80"
+              height="80"
+            >
+          </div>
+
+          <div class="inner-info">
+            <div class="inner-name">${data.infoUserA.fullname}</div>
+
+            <div class="inner-buttons">
+              <button
+                class="btn btn-sm btn-primary m-1"
+                btn-accept-friend="${data.infoUserA._id}"
+              >
+                Chấp nhận
+              </button>
+
+              <button
+                class="btn btn-sm btn-secondary m-1"
+                btn-refuse-friend="${data.infoUserA._id}"
+              >
+                Xóa
+              </button>
+
+              <button
+                class="btn btn-sm btn-secondary m-1"
+                btn-delete-friend="${data.infoUserA._id}"
+                disabled
+              >
+                Đã xóa
+              </button>
+
+              <button
+                class="btn btn-sm btn-primary m-1"
+                btn-accepted-friend="${data.infoUserA._id}"
+                disabled
+              >
+                Đã chấp nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      dataUserAccept.appendChild(div);
+
+      //Hủy lời mời kết bạn
+      const buttonRefuse = div.querySelector("[btn-refuse-friend]");
+      refuseFriend(buttonRefuse);
+
+      //Chấp nhận lời mời kết bạn
+      const buttonAccept = div.querySelector("[btn-accept-friend]");
+      acceptFriend(buttonAccept);
+    }
+  });
+}
+//END SERVER_RETURN_INFO_ACCEPT_FRIEND
