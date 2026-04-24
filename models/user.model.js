@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       },
     ],
     statusOnline: String,
+    lastOnline: Date,
     deleted: {
       type: Boolean,
       default: false,

@@ -326,3 +326,61 @@ socket.on("SERVER_RETURN_ACCEPT_FRIEND", (data) => {
   }
 });
 // END SERVER_RETURN_ACCEPT_FRIEND
+
+// HÀM FORMAT THỜI GIAN TỰ ĐỘNG
+const formatTimeAgo = (dateString) => {
+  if (!dateString) return "Offline";
+  const date = new Date(dateString);
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+
+  let interval = Math.floor(seconds / 31536000);
+  if (interval >= 1) return `Hoạt động ${interval} năm trước`;
+  interval = Math.floor(seconds / 2592000);
+  if (interval >= 1) return `Hoạt động ${interval} tháng trước`;
+  interval = Math.floor(seconds / 86400);
+  if (interval >= 1) return `Hoạt động ${interval} ngày trước`;
+  interval = Math.floor(seconds / 3600);
+  if (interval >= 1) return `Hoạt động ${interval} giờ trước`;
+  interval = Math.floor(seconds / 60);
+  if (interval >= 1) return `Hoạt động ${interval} phút trước`;
+  return `Vừa mới truy cập`;
+};
+
+const updateOfflineStatus = () => {
+  const offlineStatuses = document.querySelectorAll(
+    ".inner-status[status='offline']",
+  );
+  offlineStatuses.forEach((el) => {
+    const lastOnline = el.getAttribute("last-online");
+    if (lastOnline && lastOnline !== "undefined") {
+      el.setAttribute("last-online-text", " " + formatTimeAgo(lastOnline));
+    } else {
+      el.setAttribute("last-online-text", " Offline");
+    }
+  });
+};
+
+updateOfflineStatus();
+setInterval(updateOfflineStatus, 60000); // Cập nhật lại mỗi 1 phút
+
+//SERVER_RETURN_USER_STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+  const dataUserFriend = document.querySelector("[data-users-friend]");
+  if (dataUserFriend) {
+    const boxUser = dataUserFriend.querySelector(`[user-id='${data.userId}']`);
+    if (boxUser) {
+      const boxStatus = boxUser.querySelector("[status]");
+      boxStatus.setAttribute("status", data.status);
+
+      if (data.status === "offline" && data.lastOnline) {
+        boxStatus.setAttribute("last-online", data.lastOnline);
+        boxStatus.setAttribute(
+          "last-online-text",
+          " " + formatTimeAgo(data.lastOnline),
+        );
+      }
+    }
+  }
+});
+//END SERVER_RETURN_USER_STATUS_ONLINE
