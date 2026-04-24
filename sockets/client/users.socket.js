@@ -54,6 +54,16 @@ module.exports = (res) => {
         userId: userId,
         infoUserA: infoUserA,
       });
+
+      //Lấy ra độ dài requestFriends của A và trả về cho A
+      const infoUserA_length = await User.findOne({
+        _id: myUserId,
+      });
+      const lengthRequestFriends = infoUserA_length.requestFriends.length;
+      socket.emit("SERVER_RETURN_LENGTH_REQUEST_FRIEND", {
+        lengthRequestFriends: lengthRequestFriends,
+        userId: myUserId,
+      });
     });
     //END Chức năng gửi yêu cầu kết bạn
 
@@ -101,10 +111,26 @@ module.exports = (res) => {
         lengthAcceptFriends: lengthAcceptFriends,
         userId: userId,
       });
+
       //Lấy info của A và trả về cho B
+      const infoUserA = await User.findOne({
+        _id: myUserId,
+      }).select("id fullname avatar");
+
       socket.broadcast.emit("SERVER_RETURN_INFO_CANCEL_FRIEND", {
         userIdB: userId,
         userIdA: myUserId,
+        infoUserA: infoUserA,
+      });
+
+      // Lấy ra độ dài requestFriends của A và trả về cho A
+      const infoUserA_length = await User.findOne({
+        _id: myUserId,
+      });
+      const lengthRequestFriends = infoUserA_length.requestFriends.length;
+      socket.emit("SERVER_RETURN_LENGTH_REQUEST_FRIEND", {
+        lengthRequestFriends: lengthRequestFriends,
+        userId: myUserId,
       });
     });
     //END Chức năng hủy yêu cầu kết bạn
@@ -144,6 +170,37 @@ module.exports = (res) => {
           },
         );
       }
+
+      // Lấy ra độ dài acceptFriends của B và trả về
+      const infoUserB = await User.findOne({
+        _id: myUserId,
+      });
+      const lengthAcceptFriends = infoUserB.acceptFriends.length;
+      socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+        lengthAcceptFriends: lengthAcceptFriends,
+        userId: myUserId,
+      });
+
+      // Trả về cho A để realtime danh sách lời mời đã gửi
+      socket.broadcast.emit("SERVER_RETURN_REFUSE_FRIEND", {
+        userIdA: userId,
+        userIdB: myUserId,
+        infoUserB: {
+          _id: infoUserB._id,
+          fullname: infoUserB.fullname,
+          avatar: infoUserB.avatar,
+        },
+      });
+
+      // Lấy ra độ dài requestFriends của A và trả về cho A
+      const infoUserA_length = await User.findOne({
+        _id: userId,
+      });
+      const lengthRequestFriends = infoUserA_length.requestFriends.length;
+      socket.broadcast.emit("SERVER_RETURN_LENGTH_REQUEST_FRIEND", {
+        lengthRequestFriends: lengthRequestFriends,
+        userId: userId,
+      });
     });
     //END Lời mời kết bạn - Chức năng xóa
 
@@ -184,6 +241,32 @@ module.exports = (res) => {
           },
         );
       }
+
+      // Lấy ra độ dài acceptFriends của B và trả về
+      const infoUserB = await User.findOne({
+        _id: myUserId,
+      });
+      const lengthAcceptFriends = infoUserB.acceptFriends.length;
+      socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+        lengthAcceptFriends: lengthAcceptFriends,
+        userId: myUserId,
+      });
+
+      // Trả về cho A để realtime danh sách lời mời đã gửi
+      socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND", {
+        userIdA: userId,
+        userIdB: myUserId,
+      });
+
+      // Lấy ra độ dài requestFriends của A và trả về cho A
+      const infoUserA_length = await User.findOne({
+        _id: userId,
+      });
+      const lengthRequestFriends = infoUserA_length.requestFriends.length;
+      socket.broadcast.emit("SERVER_RETURN_LENGTH_REQUEST_FRIEND", {
+        lengthRequestFriends: lengthRequestFriends,
+        userId: userId,
+      });
     });
     //END Lời mời kết bạn - Chức năng chấp nhận
   });
