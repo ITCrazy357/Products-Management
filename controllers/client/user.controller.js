@@ -73,6 +73,15 @@ module.exports.loginPost = async (req, res) => {
   res.cookie("tokenUser", user.tokenUser);
   req.flash("success", "Đăng nhập thành công");
 
+  await User.updateOne(
+    {
+      tokenUser: user.tokenUser,
+    },
+    {
+      statusOnline: "online",
+    },
+  );
+
   // Tìm giỏ hàng cũ của user đã lưu trong DB
   const cartUser = await Cart.findOne({
     user_id: user.id,
@@ -95,7 +104,15 @@ module.exports.loginPost = async (req, res) => {
 };
 
 //[GET] /user/logout
-module.exports.logout = (req, res) => {
+module.exports.logout = async (req, res) => {
+  await User.updateOne(
+    {
+      tokenUser: req.cookies.tokenUser,
+    },
+    {
+      statusOnline: "offline",
+    },
+  );
   res.clearCookie("tokenUser");
   res.clearCookie("cartId");
   req.flash("success", "Đăng xuất thành công");

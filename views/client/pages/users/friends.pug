@@ -1,0 +1,41 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        include ../../partials/list-btn-users.pug
+
+        .row 
+            .col-12 
+                +box-head("Danh sách bạn bè")
+
+        
+        .row(data-users-friend=user.id)
+            each user in users
+                .col-6(user-id=user.id) 
+                    div(class="box-user box-user-friend")
+                        div(class="inner-avatar")
+                            img(
+                                    src=(user.avatar ? user.avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+                                    alt=user.fullname
+                                    class="rounded-circle"
+                                    width="80"
+                                    height="80"
+                            )
+
+                        div(class="inner-info")
+                            div(class="inner-name") #{user.fullname}
+                            div(class="inner-buttons")
+                                a(
+                                    href="#"
+                                    class="btn btn-sm btn-primary mr-1"
+                                ) Nhắn tin
+                                a(
+                                    href="#"
+                                    class="btn btn-sm btn-danger m-1"
+                                ) Hủy kết bạn
+
+                            div(
+                                class="inner-status"
+                                status=user.statusOnline
+                            ) <i class="fa-solid fa-circle"></i>

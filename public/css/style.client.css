@@ -580,6 +580,16 @@
   text-decoration: underline;
 }
 
+/* Ghi đè giữ nguyên màu trắng cho các thẻ a đóng vai trò là nút bấm (btn) */
+.box-user a.btn {
+  color: #fff !important;
+}
+
+.box-user a.btn:hover {
+  color: #fff !important;
+  text-decoration: none;
+}
+
 /* ===== AUTH TABS (Gộp Đăng nhập/Đăng ký) ===== */
 .auth-tabs {
   display: flex;
@@ -1159,6 +1169,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .box-user-friend .inner-avatar {
@@ -1176,6 +1187,29 @@
 .box-user-friend .inner-info .inner-name {
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+/* TRẠNG THÁI ONLINE / OFFLINE */
+.box-user-friend .inner-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.box-user-friend .inner-status[status="online"] {
+  color: #28a745;
+}
+.box-user-friend .inner-status[status="online"]::after {
+  content: " Online";
+}
+
+.box-user-friend .inner-status[status="offline"] {
+  color: #6c757d;
+}
+.box-user-friend .inner-status[status="offline"]::after {
+  content: " Offline";
 }
 
 .box-user [btn-cancel-friend] {
