@@ -348,17 +348,19 @@ const formatTimeAgo = (dateString) => {
 };
 
 const updateOfflineStatus = () => {
-  const offlineStatuses = document.querySelectorAll(
+  const offlineStatus = document.querySelectorAll(
     ".inner-status[status='offline']",
   );
-  offlineStatuses.forEach((el) => {
-    const lastOnline = el.getAttribute("last-online");
-    if (lastOnline && lastOnline !== "undefined") {
-      el.setAttribute("last-online-text", " " + formatTimeAgo(lastOnline));
-    } else {
-      el.setAttribute("last-online-text", " Offline");
-    }
-  });
+  if (offlineStatus) {
+    offlineStatus.forEach((off) => {
+      const lastOnline = off.getAttribute("last-online");
+      if (lastOnline) {
+        off.setAttribute("last-online-text", " " + formatTimeAgo(lastOnline));
+      } else {
+        off.setAttribute("last-online-text", " Offline");
+      }
+    });
+  }
 };
 
 updateOfflineStatus();

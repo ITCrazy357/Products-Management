@@ -112,12 +112,14 @@ module.exports.loginPost = async (req, res) => {
 
 //[GET] /user/logout
 module.exports.logout = async (req, res) => {
+  const now = new Date();
   await User.updateOne(
     {
       tokenUser: req.cookies.tokenUser,
     },
     {
       statusOnline: "offline",
+      lastOnline: now,
     },
   );
 
@@ -125,6 +127,7 @@ module.exports.logout = async (req, res) => {
     socket.broadcast.emit("SERVER_RETURN_USER_STATUS_ONLINE", {
       userId: res.locals.user.id,
       status: "offline",
+      lastOnline: now,
     });
   });
   res.clearCookie("tokenUser");

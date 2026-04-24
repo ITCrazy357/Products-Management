@@ -15,13 +15,15 @@ module.exports.connect = async (req, res, next) => {
     }
     socket.on("disconnect", async () => {
       if (res.locals.user) {
+        const now = new Date();
         await User.updateOne(
           { _id: res.locals.user.id },
-          { statusOnline: "offline" },
+          { statusOnline: "offline", lastOnline: now },
         );
         _io.emit("SERVER_RETURN_USER_STATUS_ONLINE", {
           userId: res.locals.user.id,
           status: "offline",
+          lastOnline: now,
         });
       }
     });

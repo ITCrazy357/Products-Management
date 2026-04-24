@@ -1209,7 +1209,7 @@
   color: #6c757d;
 }
 .box-user-friend .inner-status[status="offline"]::after {
-  content: " Offline";
+  content: attr(last-online-text);
 }
 
 .box-user [btn-cancel-friend] {
