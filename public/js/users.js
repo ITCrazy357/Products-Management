@@ -332,17 +332,17 @@ const formatTimeAgo = (dateString) => {
   if (!dateString) return "Offline";
   const date = new Date(dateString);
   const now = new Date();
-  const seconds = Math.floor((now - date) / 1000);
+  const times = Math.floor((now - date) / 1000);
 
-  let interval = Math.floor(seconds / 31536000);
+  let interval = Math.floor(times / 31536000);
   if (interval >= 1) return `Hoạt động ${interval} năm trước`;
-  interval = Math.floor(seconds / 2592000);
+  interval = Math.floor(times / 2592000);
   if (interval >= 1) return `Hoạt động ${interval} tháng trước`;
-  interval = Math.floor(seconds / 86400);
+  interval = Math.floor(times / 86400);
   if (interval >= 1) return `Hoạt động ${interval} ngày trước`;
-  interval = Math.floor(seconds / 3600);
+  interval = Math.floor(times / 3600);
   if (interval >= 1) return `Hoạt động ${interval} giờ trước`;
-  interval = Math.floor(seconds / 60);
+  interval = Math.floor(times / 60);
   if (interval >= 1) return `Hoạt động ${interval} phút trước`;
   return `Vừa mới truy cập`;
 };
