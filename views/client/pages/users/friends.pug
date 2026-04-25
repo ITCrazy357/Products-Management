@@ -27,7 +27,7 @@ block main
                             div(class="inner-name") #{user.fullname}
                             div(class="inner-buttons")
                                 a(
-                                    href="#"
+                                    href=`/chat/${user.infoFriend.room_chat_id}`
                                     class="btn btn-sm btn-primary mr-1"
                                 ) Nhắn tin
                                 a(
@@ -40,3 +40,4 @@ block main
                                 status=user.statusOnline
                                 last-online=user.lastOnline
                             ) <i class="fa-solid fa-circle"></i>
+                            

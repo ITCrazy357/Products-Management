@@ -1,4 +1,5 @@
 const User = require("../../models/user.model");
+const RoomChat = require("../../models/rooms-chat.model");
 
 module.exports = (res) => {
   _io.once("connection", (socket) => {
@@ -209,11 +210,38 @@ module.exports = (res) => {
     //Lời mời kết bạn - Chức năng chấp nhận
     socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
       const myUserId = res.locals.user.id;
-      // Xóa A khỏi accept của B và thêm vào friendList
+
+      //Check
       const existIdAinB = await User.findOne({
         _id: myUserId,
         acceptFriends: userId,
       });
+
+      const existIdBinA = await User.findOne({
+        _id: userId,
+        requestFriends: myUserId,
+      });
+      //END Check
+      let roomChat;
+      //Tạo phòng chat chung
+      const dataRoom = {
+        typeRoom: "friend",
+        users: [
+          {
+            user_id: userId,
+            role: "superAdmin",
+          },
+          {
+            user_id: myUserId,
+            role: "superAdmin",
+          },
+        ],
+      };
+      roomChat = new RoomChat(dataRoom);
+      await roomChat.save();
+      //END Tạo phòng chat chung
+
+      // Xóa A khỏi accept của B và thêm vào friendList
       if (existIdAinB) {
         await User.updateOne(
           {
@@ -221,15 +249,14 @@ module.exports = (res) => {
           },
           {
             $pull: { acceptFriends: userId },
-            $push: { friendList: { user_id: userId, room_chat_id: "" } },
+            $push: {
+              friendList: { user_id: userId, room_chat_id: roomChat._id },
+            },
           },
         );
       }
+
       // Xóa id của B trong requestFriends của A và thêm B vào listFriend
-      const existIdBinA = await User.findOne({
-        _id: userId,
-        requestFriends: myUserId,
-      });
       if (existIdBinA) {
         await User.updateOne(
           {
@@ -237,7 +264,9 @@ module.exports = (res) => {
           },
           {
             $pull: { requestFriends: myUserId },
-            $push: { friendList: { user_id: myUserId, room_chat_id: "" } },
+            $push: {
+              friendList: { user_id: myUserId, room_chat_id: roomChat._id },
+            },
           },
         );
       }
