@@ -14,6 +14,13 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const moment = require("moment");
+
+//
+const User = require("./models/user.model");
+User.updateMany({}, { statusOnline: "offline" }).then(() =>
+  console.log("Reset Offline Status."),
+);
+
 //socket
 const http = require("http");
 const { Server } = require("socket.io");

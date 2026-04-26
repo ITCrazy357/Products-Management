@@ -1,0 +1,248 @@
+/* ===== BOX USER (Đăng nhập / Đăng ký) ===== */
+.box-user {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.box-user h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.box-user .form-group label {
+  font-weight: 600;
+  color: #555;
+}
+
+.box-user .form-control {
+  border-radius: 6px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
+
+.box-user .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.box-user a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.box-user a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Ghi đè giữ nguyên màu trắng cho các thẻ a đóng vai trò là nút bấm (btn) */
+.box-user a.btn {
+  color: #fff !important;
+}
+
+.box-user a.btn:hover {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+/* ===== AUTH TABS (Gộp Đăng nhập/Đăng ký) ===== */
+.auth-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.auth-tab {
+  color: #aaa !important; /* Mờ khi không active */
+  cursor: pointer;
+  padding-bottom: 10px;
+  margin-bottom: -2px !important; /* Đè lên border-bottom */
+  transition: all 0.3s ease;
+}
+
+.auth-tab:hover {
+  color: #777 !important;
+}
+
+.auth-tab.active {
+  color: #333 !important; /* Đậm khi active */
+  border-bottom: 2px solid #007bff;
+}
+
+.auth-form {
+  display: none; /* Ẩn mặc định */
+  animation: fadeIn 0.4s ease;
+}
+
+.auth-form.active {
+  display: block; /* Hiện khi có class active */
+}
+
+/* ===== ICON TOGGLE PASSWORD ===== */
+.position-relative {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 38px;
+  right: 15px;
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: #333;
+}
+
+/* ===== PROFILE PAGE (Thông tin cá nhân) ===== */
+.profile-sidebar,
+.profile-content {
+  max-width: 100%; /* Ghi đè max-width: 500px của box-user */
+  height: 100%;
+}
+
+.profile-avatar {
+  font-size: 80px;
+  color: #dee2e6;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.profile-role {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.profile-menu {
+  margin-top: 15px;
+}
+
+.profile-menu li {
+  margin-bottom: 5px;
+}
+
+.profile-menu li a {
+  display: block;
+  padding: 10px 15px;
+  color: #495057;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.profile-menu li a:hover,
+.profile-menu li a.active {
+  background-color: #f8f9fa;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.profile-menu li a.text-danger:hover {
+  background-color: #fdecea;
+  color: #dc3545 !important;
+}
+
+/* ===== BOX USER FRIEND (DANH SÁCH BẠN BÈ) ===== */
+.box-user-friend {
+  max-width: 100%;
+  margin: 0;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.box-user-friend .inner-avatar {
+  margin-right: 15px;
+}
+
+.box-user-friend .inner-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.box-user-friend .inner-info .inner-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* TRẠNG THÁI ONLINE / OFFLINE */
+.box-user-friend .inner-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.box-user-friend .inner-status[status="online"] {
+  color: #28a745;
+}
+.box-user-friend .inner-status[status="online"]::after {
+  content: " Online";
+}
+
+.box-user-friend .inner-status[status="offline"] {
+  color: #6c757d;
+}
+.box-user-friend .inner-status[status="offline"]::after {
+  content: attr(last-online-text);
+}
+
+.box-user [btn-cancel-friend] {
+  display: none;
+}
+
+.box-user.add [btn-add-friend] {
+  display: none;
+}
+
+.box-user.add [btn-cancel-friend] {
+  display: inline-block;
+}
+
+/* ===== TRẠNG THÁI LỜI MỜI KẾT BẠN ===== */
+/* Ẩn nút Đã xóa và Đã chấp nhận ở trạng thái mặc định */
+.box-user-friend [btn-delete-friend],
+.box-user-friend [btn-accepted-friend] {
+  display: none;
+}
+
+/* Khi box được thêm class 'refuse' (Từ chối/Xóa) */
+.box-user-friend.refuse [btn-accept-friend],
+.box-user-friend.refuse [btn-refuse-friend] {
+  display: none;
+}
+.box-user-friend.refuse [btn-delete-friend] {
+  display: inline-block;
+}
+
+/* Khi box được thêm class 'accepted' (Đã chấp nhận) */
+.box-user-friend.accepted [btn-accept-friend],
+.box-user-friend.accepted [btn-refuse-friend] {
+  display: none;
+}
+.box-user-friend.accepted [btn-accepted-friend] {
+  display: inline-block;
+}
