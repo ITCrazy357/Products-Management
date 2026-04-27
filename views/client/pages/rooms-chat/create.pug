@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3
+        include ../../partials/list-btn-users.pug
+        .row
+            .col-12
+                +box-head("Tạo phòng chat mới")
+                
+        .row
+            .col-md-8.mx-auto
+                form(action="/rooms-chat/create" method="POST" class="form-create-room")
+                    .form-group.mb-3
+                        label(for="title") Tên phòng chat *
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            placeholder="Nhập tên phòng..."
+                            required
+                        )
+                        
+                    .form-group.mb-4
+                        label Thêm thành viên
+                        .box-list-friends
+                            each friend in friendList
+                                .friend-item
+                                    img.inner-avatar(src=friend.infoFriend.avatar ? friend.infoFriend.avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",  alt="Avatar")
+                                    .inner-name
+                                        label(for=`user-${friend.user_id}`, class="form-check-label") #{friend.infoFriend.fullname}
+                                    input(class="form-check-input" type="checkbox" name="usersId" value=friend.user_id id=`user-${friend.user_id}`)
+                                        
+                    .form-group.text-center
+                        button(type="submit" class="btn btn-primary px-5 rounded-pill") Tạo phòng

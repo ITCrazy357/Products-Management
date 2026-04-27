@@ -1,0 +1,132 @@
+/* ===== ROOMS CHAT LIST ===== */
+.box-room {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 25px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  height: 100%;
+}
+
+.box-room:hover {
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+  transform: translateY(-5px);
+  border-color: #007bff;
+}
+
+.box-room .inner-avatar {
+  margin-bottom: 15px;
+}
+
+.box-room .inner-avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e9ecef;
+  padding: 3px;
+}
+
+.box-room .inner-info {
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.box-room .inner-info .inner-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+
+.box-room .inner-info .inner-desc {
+  font-size: 14px;
+  color: #6c757d;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.box-room .inner-buttons .btn {
+  padding: 8px 25px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== FORM CREATE ROOM ===== */
+.form-create-room {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  margin-bottom: 30px;
+}
+
+.form-create-room label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Danh sách chọn bạn bè */
+.box-list-friends {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fafafa;
+}
+
+.box-list-friends .friend-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.box-list-friends .friend-item:last-child {
+  margin-bottom: 0;
+}
+
+.box-list-friends .friend-item:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.box-list-friends .friend-item .inner-avatar {
+  width: 50px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid #eaeaea;
+}
+
+.box-list-friends .friend-item .inner-name {
+  font-weight: 600;
+  flex-grow: 1;
+  color: #333;
+}
+
+.box-list-friends .friend-item input[type="checkbox"] {
+  width: 10px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #007bff;
+}

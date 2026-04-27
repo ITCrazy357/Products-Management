@@ -4,6 +4,7 @@
 @import "alert.css";
 @import "user.css";
 @import "chat.css";
+@import "rooms-chat.css";
 
 /* ===== BOX HEAD ===== */
 .box-head {
