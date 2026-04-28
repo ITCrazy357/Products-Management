@@ -8,8 +8,12 @@ block main
 
 
         .row 
-            .col-12 
-                +box-head("Chat")
+            .col-12
+                if(roomChat.typeRoom == "group") 
+                    +box-head(roomChat.title)
+                if(roomChat.typeRoom == "friend")
+                    +box-head(roomChat.infoUser.fullname)
+
             
             .chat(my-id=userInfo.id)
                 .image-preview-container

@@ -182,3 +182,28 @@ if (formsAddToCart.length > 0) {
     });
   });
 }
+
+// ===== Upload Avatar (Thay đổi ảnh đại diện) =====
+const uploadAvatarInput = document.querySelector(".input-upload-avatar");
+if (uploadAvatarInput) {
+  uploadAvatarInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imagePreview = document.querySelector(".image-preview");
+      const iconDefault = document.querySelector(".icon-default");
+      const formUploadAvatar = document.querySelector("#form-upload-avatar");
+
+      if (imagePreview) {
+        imagePreview.src = URL.createObjectURL(file);
+        imagePreview.classList.remove("d-none");
+        imagePreview.classList.add("d-block");
+      }
+      if (iconDefault) {
+        iconDefault.classList.add("d-none");
+      }
+      if (formUploadAvatar) {
+        formUploadAvatar.submit();
+      }
+    }
+  });
+}
