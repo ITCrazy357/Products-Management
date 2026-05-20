@@ -1,0 +1,2 @@
+export type Empty = never;
+
